@@ -7,9 +7,6 @@ function createHandsontable(hot_data, container, colHeaders) {
 
         td.style.color = '#000000';
 
-//        if (value > 1500) {
-//            td.style.background = '#E9967A';
-//        }
 
         if (!value || value === 0) {
             td.style.background = '#DCDCDC';
