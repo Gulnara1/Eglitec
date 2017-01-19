@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>EglitecServlet</servlet-name>
+        <servlet-class>com.eglitec.LineChartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DownloadWindow</servlet-name>
+        <servlet-class>com.eglitec.UploadStoresMainIndexes</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EglitecServlet</servlet-name>
+        <url-pattern>/EglitecServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DownloadWindow</servlet-name>
+        <url-pattern>/DownloadWindow</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <context-param>
+        <param-name>dbUser</param-name>
+        <param-value>postgres</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbPassword</param-name>
+        <param-value>12345</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbURL</param-name>
+        <param-value>jdbc:postgresql://192.168.11.31:5432/pmagic</param-value>
+    </context-param>
+    <context-param>
+        <param-name>log4j-config</param-name>
+        <param-value>WEB-INF/log4j.properties</param-value>
+    </context-param>
+</web-app>

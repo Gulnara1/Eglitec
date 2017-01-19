@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Eglitec Analitics</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <!-- Global stylesheets -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+        <link href="css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+        <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+        <link href="css/core.css" rel="stylesheet" type="text/css">
+        <link href="css/components.css" rel="stylesheet" type="text/css">
+        <link href="css/colors.css" rel="stylesheet" type="text/css">
+        <!-- /global stylesheets -->
+
+        <!-- Core JS files -->
+        <script type="text/javascript" src="js/server_inf/serverPathInfo.js"></script>
+        <script type="text/javascript" src="js/plugins/loaders/pace.min.js"></script>
+        <script type="text/javascript" src="js/core/libraries/jquery.min.js"></script>
+        <script type="text/javascript" src="js/core/libraries/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/plugins/loaders/blockui.min.js"></script>
+        <script type="text/javascript" src="js/plugins/tables/handsontable/handsontable.full.js"></script>
+        <!-- /core JS files -->
+
+        <!-- Theme JS files -->
+        <script type="text/javascript" src="js/stores_main_indexes.js"></script>
+        <script type="text/javascript" src="js/core/app.js"></script>
+        <script type="text/javascript" src="js/lib/echarts.js"></script>
+        <script type="text/javascript" src="js/lib/echarts/pies_donuts.js"></script>
+        <script type="text/javascript" src="js/pages/hot.js"></script> 
+        <!-- /theme JS files -->
+
+    </head>
+    <body>
+        <!-- Main navbar -->
+        <div class="navbar navbar-default header-highlight">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html"><img src="images/logo_light.png" alt=""></a>
+                <!--???-->
+                <ul class="nav navbar-nav visible-xs-block">
+                    <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
+                    <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+                </ul>
+                <!--????-->
+            </div>
+            <div class="navbar-collapse collapse" id="navbar-mobile">
+                <ul class="nav navbar-nav">
+                    <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
+                </ul>
+            </div>
+
+        </div>
+        <!-- /Main navbar -->
+
+        <!-- Page container -->
+        <div class="page-container">
+            <!-- Page content -->
+            <div class="page-content">
+
+<!-- Main sidebar -->
+                <div class="sidebar sidebar-main" >
+                    <div class="sidebar-content">
+                        <!--<div class="sidebar-user">-->
+                        <!--<div class="category-content">-->
+                        <!--<div class="media">-->
+                        <!--<a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>-->
+                        <!--<div class="media-body">-->
+                        <!--<span class="media-heading text-semibold">Victoria Baker</span>-->
+                        <!--<div class="text-size-mini text-muted">-->
+                        <!--<i class="icon-pin text-size-small"></i> &nbsp;Santa Ana, CA-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+                        <!--<div class="media-right media-middle">-->
+                        <!--<ul class="icons-list">-->
+                        <!--<li>-->
+                        <!--<a href="#"><i class="icon-cog3"></i></a>-->
+                        <!--</li>-->
+                        <!--</ul>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!-- Main navigation -->
+                        <div class="sidebar-category sidebar-category-visible">
+                            <div class="category-content no-padding">  
+                                <ul class="navigation navigation-main navigation-accordion">
+                                    <li>
+                                        <a href="#"><i class="icon-stats-dots"></i> <span>Магазины</span></a>
+                                        <ul>
+                                            <li><a href="stores_main_indexes.html">Основные показатели</a></li>
+                                            <li><a href="">Категорийная структура кластеров</a></li>                                            
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a href="#"><i class="icon-graph"></i> <span>Категории</span></a>
+                                        <ul>
+                                            <li><a href="">Основные показатели</a></li>
+                                            <li><a href="">Динамика категорий</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a href="#"><i class="icon-cart5"></i> <span>Номенклатура</span></a>
+                                        <ul>
+                                            <li><a href="echarts_lines_areas.html">Основные показатели</a></li>
+                                            <li><a href="">Анализ товарных зависимостей</a></li>
+                                        </ul>
+                                    </li>
+                                    
+                                    <li>
+                                        <a href="#"><i class="icon-statistics"></i> <span>Цены</span></a>
+                                        <ul>
+                                            <li><a href="next_best_prices.html">Следующие лучшие цены</a></li>
+                                            <li><a href="">Анализ результативности</a></li>
+                                        </ul>
+                                    </li>
+                                    
+                                    <li>
+                                        <a href="#"><i class="icon-eye"></i> <span>Мониторинг</span></a>
+                                        <ul>
+                                            <li><a href="next_best_prices.html">Мониторинг конкурентов</a></li>
+                                        </ul>
+                                    </li>
+                                    
+                                    <li>
+                                        <a href="#"><i class="icon-cog3"></i> <span>Настройки</span></a>
+                                        <ul>
+                                            <li><a href="stores_settings.html">Магазины</a></li>
+                                            <li><a href="">Категории</a></li>
+                                            <li><a href="">Товарные позиции</a></li>
+                                        </ul>
+                                    </li>     
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+                <!-- /main sidebar -->
+                <!-- Main content -->
+                <div class="content-wrapper">
+                    <!-- Page header -->
+                    <div class="page-header">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Магазины</span> - Основные показатели</h4>
+                            </div>
+                        </div>
+                        <div class="breadcrumb-line">
+
+                            <ul class="breadcrumb">
+                                <li><a href="index.html"><i class="icon-home2 position-left"></i> Главная</a></li>
+                                <li><a href="">Магазины</a></li> 
+                                <li href="" class="active">Основные показатели</li>
+                            </ul>     
+                        </div>                        
+                    </div>
+                    <!-- page header -->
+                    <!--Filters -->
+                    <div class="content">
+                        <div class="panel panel-flat">      
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="display-block text-semibold">Дата с </label>
+                                            <input type="date" class="form-control" placeholder="col-md-2" id="fromDate">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="display-block text-semibold"> по </label>
+                                            <input type="date" class="form-control" placeholder="col-md-2" id="toDate">
+                                        </div>
+                                    </div>
+                                    <div class="form-group" >
+                                        <label class="display-block text-semibold">Выберите </label> 
+                                        <div placeholder="col-md-2" class="abcData">
+
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" checked="checked" name="abc" value="A">
+                                                A
+                                            </label>
+
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" checked="checked" name="abc" value="B">
+                                                B
+                                            </label>
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" checked="checked" name="abc" value="C">
+                                                C
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button id="getData"> Submit </button>
+                            </div>
+                        </div>                        
+                    </div>                                        
+                    <!--filters -->
+                    <!--indexes -->
+                    <div class="content">
+                        <div class="panel panel-flat">      
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4 text-center">
+                                        <label class="display-block ">КОЛ-ВО ЧЕКОВ</label>
+                                        <label class="text-semibold text-grey-800 text-ultralarge" id="tickets"></label>
+                                    </div>
+                                    <div class="col-md-4 text-center ">
+                                        <label class="display-block ">ПРОДАЖИ</label>
+                                        <label class="text-semibold text-grey-800 text-ultralarge" id="sales"></label>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <label class="display-block ">ВАЛОВАЯ ПРИБЫЛЬ</label>
+                                        <label class="text-semibold text-grey-800 text-ultralarge" id="grossprofit"></label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>                        
+                    <!--indexes -->
+                    <!-- Content area -->
+                    <div class="content">
+                        <!-- Basic donut chart -->
+                        <div class="panel panel-flat">
+                            <div class="row">
+                                <div class="panel-heading">
+                                    <h5 class="panel-title">Основные показатели по магазинам</h5>
+                                    <div class="heading-elements">
+                                        <ul class="icons-list">
+                                            <li><a data-action="collapse"></a></li>
+                                            <li><a data-action="reload"></a></li>
+                                            <li><a data-action="close"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="chart-container " id = "basic_donut_scroll">
+                                        <!--class="chart has-fixed-height has-minimum-width"-->
+                                        <div class="chart " >
+                                            <div class="col-md-4 has-fixed-height" id="basic_donut_tickets"></div>
+                                            <div class="col-md-4 has-fixed-height" id="basic_donut_sales"></div>
+                                            <div class="col-md-4 has-fixed-height" id="basic_donut_grossprofit"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- /basic donut chart -->
+                        </div>
+                    </div>
+
+                    <!-- Scrolling enabled -->
+                    <div class="content">
+                        <div class="panel panel-flat">
+                            <div class="panel-heading">
+                                <h5 class="panel-title" id="panel-title">Таблица</h5>
+                                <div class="heading-elements">
+                                    <ul class="icons-list">
+                                        <li><a id="export_csv"><i class="icon-file-excel"></i> Export to .csv</a></li>
+                                        <li><a data-action="collapse"></a></li>
+                                        <li><a data-action="reload"></a></li>
+                                        <li><a data-action="close"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="panel-body">
+                                <p class="content-group"></p>
+
+                                <div class="hot-container has-scroll">
+                                    <div id="hot_table"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /scrolling enabled -->
+                </div>
+                <!-- content area -->
+            </div>
+            <!-- page content -->
+        </div>
+        <!-- page container -->
+    </body>
+</html>
