@@ -60,4 +60,21 @@ public class Selects {
             + "left outer join f on p.id = f.fk_prd\n"
             + "group by g.id, g.long_descr\n"
             + "order by gprofit_optim";
+    public static final String SELECT_ITEMS_FOR_PRICES = "select 	p.id fk_prd, p.descr prd_descr, ped,\n"
+            + "	f.price_curr, 	f.price_next,\n"
+            + "	f.sales_next_qty*f.price_optim sales_next,\n"
+            + "	f.sales_next_qty*(f.price_next-f.unitcost) gprofit_next,\n"
+            + "	f.price_optim,\n"
+            + "	f.sales_optim_qty*f.price_optim sales_optim,\n"
+            + "	f.sales_optim_qty*(f.price_optim-f.unitcost) gprofit_optim\n"
+            + "from egl.egl_s_sls_prd_f_m f \n"
+            + "join egl.egl_d_prd p on p.id = f.fk_prd\n"
+            + "join egl.egl_d_prd_gr g on g.id = p.fk_prd_pgr \n"
+            + "where f.fk_org = ? \n"
+            + "and f.month_id = ? \n"
+            + "and g.id = ? \n"
+            + "and f.ped < 0\n"
+            + "and f.price_next-f.unitcost>0\n"
+            + "order by ped";
+
 }

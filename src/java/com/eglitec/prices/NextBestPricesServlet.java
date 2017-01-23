@@ -45,6 +45,9 @@ public class NextBestPricesServlet extends HttpServlet {
             Param param = new Param();
             param.setAbc(request.getParameter("abc"));
             param.setFromDate(Integer.parseInt(request.getParameter("dateMonth")));
+//            param.setCategoriesId(request.getParameterValues("catId"));
+//            param.setStoreIds(stores);
+//            param.setP(p);
 
             PricesPageManager ppm = new PricesPageManager();
             String dataJson = ppm.getJson(conn, param);

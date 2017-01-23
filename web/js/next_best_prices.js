@@ -1,16 +1,31 @@
 
-
+var selectedStoreId = [];
+var selectedCatId = [];
+var dateMonth;
 $(function () {
 
     date = new Date();
     month = date.getMonth() + 1;
     year = date.getFullYear();
-    if (month < 10)
-        month = "0" + month;
-    today = year + "-" + month;
-    $('#date_month').val(today);
+    function checkMonth() {
+        if (month < 10)
+            month = "0" + month;
+    }
+    //today = year + "-" + month;
 
-    dateMonth = ($("#date_month").val()).replace(/-/g, '');
+    for (var i = 1; i < 7; i++) {
+
+        checkMonth();
+        $('#date_month').append('<option value="' + year + month + '" name="' + year + "-" + month + '"+>' + year + "-" + month + '</option>');
+        month = month - 1;
+        if (month <= 0) {
+            month = 12;
+            year = year - 1;
+        }
+    }
+
+    dateMonth = $("#date_month").val();
+    console.log(dateMonth);
     checkboxes = document.getElementsByName('abc');
     selectedABC = "";
     for (var i = 0; i < checkboxes.length; i++) {
@@ -20,11 +35,11 @@ $(function () {
             selectedABC = selectedABC + "X";
         }
     }
-    getData(dateMonth, selectedABC);
+    getStoresCategoris(dateMonth, selectedABC);
 
-    $('#submit').click(function () {
+    $('#panel-body').click(function () {
 
-        dateMonth = ($("#date_month").val()).replace(/-/g, '');
+        dateMonth = $("#date_month").val();
         checkboxes = document.getElementsByName('abc');
         selectedABC = "";
         for (var i = 0; i < checkboxes.length; i++) {
@@ -34,12 +49,11 @@ $(function () {
                 selectedABC = selectedABC + "X";
             }
         }
-        getData(dateMonth, selectedABC);
+        getStoresCategoris(dateMonth, selectedABC);
     });
-
 });
-
-function getData(dateMonth, abc) {
+///////
+function getItems() {
 
     $.ajax({
         url: getPath() + 'Eglitec/NextBestPricesServlet',
@@ -47,17 +61,42 @@ function getData(dateMonth, abc) {
         dataType: 'json',
         data: {
             dateMonth: dateMonth,
-            abc: abc},
+            storeId: selectedStoreId,
+            catId: selectedCatId,
+            p: 'i'},
         success: function (data) {
-
             $.each(data, function (key, value) {
+                itemsJson = JSON.parse(data.chartJson);
+            });
+        }
+    });
 
+}
+
+////get Stores and Categories from server
+function getStoresCategoris(dateMonth, abc) {
+    $.ajax({
+        url: getPath() + 'Eglitec/NextBestPricesServlet',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            dateMonth: dateMonth,
+            abc: abc,
+            p: 'sc'},
+        success: function (data) {
+            $.each(data, function (key, value) {
                 storeJson = JSON.parse(data.chartJson);
                 catJson = JSON.parse(data.tableJson);
-
+                console.log(storeJson);
             });
-            createStoresTable(storeJson);
-            createCategoriesTable(catJson);
+            if (storeJson.length === 0)
+            {
+                document.getElementById('stores').innerHTML = "Нет данных";
+            } else
+            {
+                createStoresTable(storeJson);
+                createCategoriesTable(catJson);
+            }
         }
     });
 }
@@ -97,7 +136,7 @@ function createStoresTable(jsonObject) {
         }
     }
     Handsontable.renderers.registerRenderer('negativeValueRenderer', negativeValueRenderer);
-    var handsontable = new Handsontable(container, {
+    handsontable = new Handsontable(container, {
         data: hot_data,
         stretchH: 'all',
         minRows: 2,
@@ -112,7 +151,10 @@ function createStoresTable(jsonObject) {
             console.log("Handsontable initialized!");
         },
         afterSelection: function (row, col, row1, col1) {
-            console.log(this.getData(row, 1, row, 1));
+            selection = this.getData(row, 1, row, 1);
+            console.log(selection);
+//            selectedStoreId = selection[];
+            console.log(selection[0]);
         },
         colHeaders,
         cells: function (row, col, prop) {
@@ -159,7 +201,50 @@ function createCategoriesTable(jsonObject) {
         'salesNext',
         'gprofitNext'
     ];
-    handsontable = createHandsontable(hot_data, container, colHeaders);
+    function negativeValueRenderer(instance, td, row, col, prop, value, cellProperties) {
+        Handsontable.renderers.TextRenderer.apply(this, arguments);
+        td.style.color = '#000000';
+        if (!value || value === 0) {
+            td.style.background = '#DCDCDC';
+        }
+    }
+    Handsontable.renderers.registerRenderer('negativeValueRenderer', negativeValueRenderer);
+    handsontable = new Handsontable(container, {
+        data: hot_data,
+        stretchH: 'all',
+        minRows: 2,
+        minCols: 2,
+        columnSorting: true,
+        manualColumnResize: true,
+        sortIndicator: true,
+        readOnly: true,
+        currentRowClassName: 'currentRow',
+        outsideClickDeselects: false,
+        afterInit: function () {
+            console.log("Handsontable initialized!");
+        },
+        afterSelection: function (row, col, row1, col1) {
+            selection = this.getData(row, 1, row, 1);
+            // selectedCatId = selection[];
+            console.log(selection[0]);
+        },
+        colHeaders,
+        cells: function (row, col, prop) {
+            var cellProperties = {};
+
+            if (row === 0 || this.instance.getData()[row][col] === 'readOnly') {
+                cellProperties.readOnly = true; // make cell read-only if it is first row or the text reads 'readOnly'
+            }
+            if (col === 0)
+            {
+                cellProperties.className = "htCenter htMiddle";
+            }
+            cellProperties.renderer = "negativeValueRenderer"; // uses lookup map
+            return cellProperties;
+        }
+    });
+
+    // handsontable = createHandsontable(hot_data, container, colHeaders);
 
     $("#export_csv").on('click', function () {
         hrlatorCSV(colHeaders, hot_data);//handsontable.js

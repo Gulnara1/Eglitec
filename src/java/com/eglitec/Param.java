@@ -14,6 +14,20 @@ import java.util.ArrayList;
 public class Param {
 
     /**
+     * @return the p
+     */
+    public String getP() {
+        return p;
+    }
+
+    /**
+     * @param p the p to set
+     */
+    public void setP(String p) {
+        this.p = p;
+    }
+
+    /**
      * @return the fromDate
      */
     public Integer getFromDate() {
@@ -58,28 +72,28 @@ public class Param {
     /**
      * @return the stores
      */
-    public ArrayList<Integer> getStores() {
+    public ArrayList<Integer> getStoreIds() {
         return stores;
     }
 
     /**
      * @param stores the stores to set
      */
-    public void setStores(ArrayList<Integer> stores) {
+    public void setStoreIds(ArrayList<Integer> stores) {
         this.stores = stores;
     }
 
     /**
      * @return the categories
      */
-    public ArrayList<Integer> getCategories() {
+    public ArrayList<Integer> getCategoriesId() {
         return categories;
     }
 
     /**
      * @param categories the categories to set
      */
-    public void setCategories(ArrayList<Integer> categories) {
+    public void setCategoriesId(ArrayList<Integer> categories) {
         this.categories = categories;
     }
     
@@ -88,4 +102,5 @@ public class Param {
     private String abc;
     private ArrayList<Integer> stores;
     private ArrayList<Integer> categories;
+    private String p;
 }

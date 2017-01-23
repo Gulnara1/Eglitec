@@ -158,6 +158,39 @@ public class DataBaseManager {
     }
 
     public List<Price> getItems(Param param) {
-        return null;
+        
+        List<Price> itemsList = new ArrayList<Price>();
+        PreparedStatement stmt = null;
+        try {
+
+            stmt = conn.prepareStatement(Selects.SELECT_ITEMS_FOR_PRICES);
+            //stmt.setInt(1, param.getFromDate());
+//            for (int i = 0; i < param.getAbc().length(); i++) {
+                stmt.setInt(1, param.getStoreIds().get(0));//only then one store selected
+//            }
+            stmt.setInt(2, param.getFromDate());
+            stmt.setInt(3, param.getCategoriesId().get(0));//only then one category selected
+            
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Price price = new Price();
+                price.setIdItem(rs.getInt("fk_prd"));
+                price.setDescr(rs.getString("prd_descr"));
+                price.setPed(rs.getInt("ped"));
+                price.setPriceCurr(rs.getInt("price_curr"));
+                price.setPriceNext(rs.getInt("price_next"));
+                price.setSalesNext(rs.getInt("sales_next"));
+                price.setGprofitNext(rs.getInt("gprofit_next"));
+                price.setPriceOptim(rs.getInt("price_optim"));
+                price.setSalesOptim(rs.getInt("sales_optim"));
+                price.setGprofitOptim(rs.getInt("gprofit_optim"));
+                itemsList.add(price);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(DataBaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            log.info(ex);
+        }
+        return itemsList;
     }
 }

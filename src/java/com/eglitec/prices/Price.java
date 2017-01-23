@@ -12,6 +12,76 @@ package com.eglitec.prices;
 public class Price {
 
     /**
+     * @return the idItem
+     */
+    public Integer getIdItem() {
+        return idItem;
+    }
+
+    /**
+     * @param idItem the idItem to set
+     */
+    public void setIdItem(Integer idItem) {
+        this.idItem = idItem;
+    }
+
+    /**
+     * @return the ped
+     */
+    public Integer getPed() {
+        return ped;
+    }
+
+    /**
+     * @param ped the ped to set
+     */
+    public void setPed(Integer ped) {
+        this.ped = ped;
+    }
+
+    /**
+     * @return the priceCurr
+     */
+    public Integer getPriceCurr() {
+        return priceCurr;
+    }
+
+    /**
+     * @param priceCurr the priceCurr to set
+     */
+    public void setPriceCurr(Integer priceCurr) {
+        this.priceCurr = priceCurr;
+    }
+
+    /**
+     * @return the priceNext
+     */
+    public Integer getPriceNext() {
+        return priceNext;
+    }
+
+    /**
+     * @param priceNext the priceNext to set
+     */
+    public void setPriceNext(Integer priceNext) {
+        this.priceNext = priceNext;
+    }
+
+    /**
+     * @return the priceOptim
+     */
+    public Integer getPriceOptim() {
+        return priceOptim;
+    }
+
+    /**
+     * @param priceOptim the priceOptim to set
+     */
+    public void setPriceOptim(Integer priceOptim) {
+        this.priceOptim = priceOptim;
+    }
+
+    /**
      * @return the idCat
      */
     public Integer getIdCat() {
@@ -131,5 +201,9 @@ public class Price {
     private Integer gprofitOptim;
     private Integer salesNext;
     private Integer gprofitNext;
-    
+    private Integer idItem;
+    private Integer ped;
+    private Integer priceCurr;
+    private Integer priceNext;
+    private Integer priceOptim;
 }

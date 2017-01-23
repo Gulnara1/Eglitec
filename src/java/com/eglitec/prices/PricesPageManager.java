@@ -26,9 +26,9 @@ public class PricesPageManager {
         Gson gson = new Gson();
         PageData pageData = new PageData();
         String dataJson = null;
-        if (param.getStores() != null) {
-            
-            
+        if (param.getStoreIds() != null) {
+            List<Price> itemsList = dbm.getItems(param);
+            dataJson = gson.toJson(itemsList);
 
         } else {
             List<Price> storesList = dbm.getStores(param);
