@@ -28,56 +28,56 @@ public class Price {
     /**
      * @return the ped
      */
-    public Integer getPed() {
+    public float getPed() {
         return ped;
     }
 
     /**
      * @param ped the ped to set
      */
-    public void setPed(Integer ped) {
+    public void setPed(float ped) {
         this.ped = ped;
     }
 
     /**
      * @return the priceCurr
      */
-    public Integer getPriceCurr() {
+    public float getPriceCurr() {
         return priceCurr;
     }
 
     /**
      * @param priceCurr the priceCurr to set
      */
-    public void setPriceCurr(Integer priceCurr) {
+    public void setPriceCurr(float priceCurr) {
         this.priceCurr = priceCurr;
     }
 
     /**
      * @return the priceNext
      */
-    public Integer getPriceNext() {
+    public float getPriceNext() {
         return priceNext;
     }
 
     /**
      * @param priceNext the priceNext to set
      */
-    public void setPriceNext(Integer priceNext) {
+    public void setPriceNext(float priceNext) {
         this.priceNext = priceNext;
     }
 
     /**
      * @return the priceOptim
      */
-    public Integer getPriceOptim() {
+    public float getPriceOptim() {
         return priceOptim;
     }
 
     /**
      * @param priceOptim the priceOptim to set
      */
-    public void setPriceOptim(Integer priceOptim) {
+    public void setPriceOptim(float priceOptim) {
         this.priceOptim = priceOptim;
     }
 
@@ -140,56 +140,56 @@ public class Price {
     /**
      * @return the salesOptim
      */
-    public Integer getSalesOptim() {
+    public float getSalesOptim() {
         return salesOptim;
     }
 
     /**
      * @param salesOptim the salesOptim to set
      */
-    public void setSalesOptim(Integer salesOptim) {
+    public void setSalesOptim(float salesOptim) {
         this.salesOptim = salesOptim;
     }
 
     /**
      * @return the gprofitOptim
      */
-    public Integer getGprofitOptim() {
+    public float getGprofitOptim() {
         return gprofitOptim;
     }
 
     /**
      * @param gprofitOptim the gprofitOptim to set
      */
-    public void setGprofitOptim(Integer gprofitOptim) {
+    public void setGprofitOptim(float gprofitOptim) {
         this.gprofitOptim = gprofitOptim;
     }
 
     /**
      * @return the salesNext
      */
-    public Integer getSalesNext() {
+    public float getSalesNext() {
         return salesNext;
     }
 
     /**
      * @param salesNext the salesNext to set
      */
-    public void setSalesNext(Integer salesNext) {
+    public void setSalesNext(float salesNext) {
         this.salesNext = salesNext;
     }
 
     /**
      * @return the gprofitNext
      */
-    public Integer getGprofitNext() {
+    public float getGprofitNext() {
         return gprofitNext;
     }
 
     /**
      * @param gprofitNext the gprofitNext to set
      */
-    public void setGprofitNext(Integer gprofitNext) {
+    public void setGprofitNext(float gprofitNext) {
         this.gprofitNext = gprofitNext;
     }
     
@@ -197,13 +197,13 @@ public class Price {
     private Integer idCat;
     private String descr;
     private String abc;
-    private Integer salesOptim;
-    private Integer gprofitOptim;
-    private Integer salesNext;
-    private Integer gprofitNext;
+    private float salesOptim;
+    private float gprofitOptim;
+    private float salesNext;
+    private float gprofitNext;
     private Integer idItem;
-    private Integer ped;
-    private Integer priceCurr;
-    private Integer priceNext;
-    private Integer priceOptim;
+    private float ped;
+    private float priceCurr;
+    private float priceNext;
+    private float priceOptim;
 }

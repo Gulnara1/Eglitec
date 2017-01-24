@@ -9,6 +9,7 @@ import com.eglitec.Param;
 import com.eglitec.stores.UploadStoresMainIndexes;
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -24,7 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "NextBestPricesServlet", urlPatterns = {"/NextBestPricesServlet"})
 public class NextBestPricesServlet extends HttpServlet {
 
-    private org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(UploadStoresMainIndexes.class);
+    private org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(NextBestPricesServlet.class);
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -39,15 +41,23 @@ public class NextBestPricesServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("text/html;charset=UTF-8");
         try {
-            processRequest(request, response);
             Connection conn = (Connection) getServletContext().getAttribute("DBConnection");
             Param param = new Param();
             param.setAbc(request.getParameter("abc"));
             param.setFromDate(Integer.parseInt(request.getParameter("dateMonth")));
-//            param.setCategoriesId(request.getParameterValues("catId"));
-//            param.setStoreIds(stores);
-//            param.setP(p);
+
+            if (request.getParameter("storeId") != null && request.getParameter("catId") != null) {
+                ArrayList<Integer> catList = new ArrayList<Integer>();
+                catList.add(Integer.parseInt(request.getParameter("catId")));
+                param.setCategoriesId(catList);
+
+                ArrayList<Integer> storeList = new ArrayList<Integer>();
+                storeList.add(Integer.parseInt(request.getParameter("storeId")));
+                param.setStoreIds(storeList);
+            }
+            param.setP(request.getParameter("p").charAt(0));
 
             PricesPageManager ppm = new PricesPageManager();
             String dataJson = ppm.getJson(conn, param);
@@ -55,10 +65,10 @@ public class NextBestPricesServlet extends HttpServlet {
 
             response.getWriter().write(dataJson);
             processRequest(request, response);
-            
+
         } catch (IOException | NumberFormatException | ServletException ex) {
             Logger.getLogger(NextBestPricesServlet.class.getName()).log(Level.SEVERE, null, ex);
-            logger.info(ex);
+            logger.error(ex);
         }
     }
 

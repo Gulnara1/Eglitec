@@ -25,11 +25,11 @@ and open the template in the editor.
         <script type="text/javascript" src="js/core/libraries/jquery.min.js"></script>
         <script type="text/javascript" src="js/core/libraries/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/loaders/blockui.min.js"></script>
-        <script type="text/javascript" src="js/plugins/tables/handsontable/handsontable.min.js"></script>
+        <script type="text/javascript" src="js/plugins/tables/handsontable/handsontable.full.js"></script>
         <!-- /core JS files -->        
 
         <script type="text/javascript" src="js/core/app.js"></script>
-        <script type="text/javascript" src="js/pages/handsontable.js"></script> 
+        <script type="text/javascript" src="js/pages/hot.js"></script>  
         <script type="text/javascript" src="js/stores_settings.js"></script>  
     </head>
     <body>
@@ -52,78 +52,76 @@ and open the template in the editor.
 
         </div>
         <!-- /Main navbar -->
-
-        <!-- Page container -->
         <div class="page-container">
             <!-- Page content -->
             <div class="page-content">
-
                 <!-- Main sidebar -->
                 <div class="sidebar sidebar-main" >
                     <div class="sidebar-content">
-                        <!--                        <div class="sidebar-user">
-                                                    <div class="category-content">
-                                                        <div class="media">
-                                                            <a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>
-                                                            <div class="media-body">
-                                                                <span class="media-heading text-semibold">Victoria Baker</span>
-                                                                <div class="text-size-mini text-muted">
-                                                                    <i class="icon-pin text-size-small"></i> &nbsp;Santa Ana, CA
-                                                                </div>
-                                                            </div>
-                        
-                                                            <div class="media-right media-middle">
-                                                                <ul class="icons-list">
-                                                                    <li>
-                                                                        <a href="#"><i class="icon-cog3"></i></a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>-->
+                        <!--<div class="sidebar-user">-->
+                        <!--<div class="category-content">-->
+                        <!--<div class="media">-->
+                        <!--<a href="#" class="media-left"><img src="assets/images/placeholder.jpg" class="img-circle img-sm" alt=""></a>-->
+                        <!--<div class="media-body">-->
+                        <!--<span class="media-heading text-semibold">Victoria Baker</span>-->
+                        <!--<div class="text-size-mini text-muted">-->
+                        <!--<i class="icon-pin text-size-small"></i> &nbsp;Santa Ana, CA-->
+                        <!--</div>-->
+                        <!--</div>-->
+
+                        <!--<div class="media-right media-middle">-->
+                        <!--<ul class="icons-list">-->
+                        <!--<li>-->
+                        <!--<a href="#"><i class="icon-cog3"></i></a>-->
+                        <!--</li>-->
+                        <!--</ul>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
                         <!-- Main navigation -->
                         <div class="sidebar-category sidebar-category-visible">
-                            <div class="category-content no-padding">
+                            <div class="category-content no-padding">  
                                 <ul class="navigation navigation-main navigation-accordion">
                                     <li>
                                         <a href="#"><i class="icon-stats-dots"></i> <span>Магазины</span></a>
                                         <ul>
                                             <li><a href="stores_main_indexes.html">Основные показатели</a></li>
-                                            <li><a href="">Структурная карта кластеров</a></li>                                            
+                                            <li><a href="">Категорийная структура кластеров</a></li>                                            
                                         </ul>
                                     </li>
-                                    
+
                                     <li>
                                         <a href="#"><i class="icon-graph"></i> <span>Категории</span></a>
                                         <ul>
                                             <li><a href="">Основные показатели</a></li>
+                                            <li><a href="">Динамика категорий</a></li>
                                         </ul>
                                     </li>
-                                    
-                                    <li>
-                                        <a href="#"><i class="icon-statistics"></i> <span>Товарные позиции</span></a>
-                                        <ul>
-                                            <li><a href="echarts_lines_areas.html">Аналитика по товарам</a></li>
-                                            <li><a href="">Следующие лучшие цены</a></li>   
-                                            <li><a href="">Анализ зависимостей</a></li>
-                                            <li><a href="">Анализ товара</a></li>
-                                        </ul>
-                                    </li>
-<!--                                    <li>
-                                        <a href="#"><i class="icon-graph"></i> <span>Fixed Reports</span></a>
-                                        <ul>
-                                            <li><a href="">___________</a></li>
 
+                                    <li>
+                                        <a href="#"><i class="icon-cart5"></i> <span>Номенклатура</span></a>
+                                        <ul>
+                                            <li><a href="echarts_lines_areas.html">Основные показатели</a></li>
+                                            <li><a href="">Анализ товарных зависимостей</a></li>
                                         </ul>
                                     </li>
-                                    <li>
-                                        <a href="#"><i class="icon-table2"></i> <span>OLAP Reports</span></a>
-                                        <ul>
-                                            <li><a href="">___________</a></li>
 
+                                    <li>
+                                        <a href="#"><i class="icon-statistics"></i> <span>Цены</span></a>
+                                        <ul>
+                                            <li><a href="next_best_prices.html">Следующие лучшие цены</a></li>
+                                            <li><a href="">Анализ результативности</a></li>
                                         </ul>
-                                    </li>    -->
+                                    </li>
+
+                                    <li>
+                                        <a href="#"><i class="icon-eye"></i> <span>Мониторинг</span></a>
+                                        <ul>
+                                            <li><a href="">Мониторинг конкурентов</a></li>
+                                        </ul>
+                                    </li>
+
                                     <li>
                                         <a href="#"><i class="icon-cog3"></i> <span>Настройки</span></a>
                                         <ul>
@@ -140,12 +138,28 @@ and open the template in the editor.
                 <!-- /main sidebar -->
                 <!-- Main content -->
                 <div class="content-wrapper">
-                    <!-- Content area -->
+                    <!-- Page header -->
+                    <div class="page-header">
+                        <div class="page-header-content">
+                            <div class="page-title">
+                                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Настройки</span> - Магазины</h4>
+                            </div>
+                        </div>
+                        <div class="breadcrumb-line">
+
+                            <ul class="breadcrumb">
+                                <li><a href="index.html"><i class="icon-home2 position-left"></i> Главная</a></li>
+                                <li><a href="">Настройки</a></li> 
+                                <li href="" class="active">Магазины</li>
+                            </ul>     
+                        </div>                        
+                    </div>
+                    <!-- page header -->
+                    <!-- Scrolling enabled stores table-->
                     <div class="content">
-                        <!-- Scrolling enabled -->
                         <div class="panel panel-flat">
                             <div class="panel-heading">
-                                <h5 class="panel-title" id="panel-title"></h5>
+                                <!--<h5 class="panel-title" id="panel-title"></h5>-->
                                 <div class="heading-elements">
                                     <ul class="icons-list">
                                         <li><a id="export_csv"><i class="icon-file-excel"></i> Export to .csv</a></li>
@@ -155,15 +169,17 @@ and open the template in the editor.
                                     </ul>
                                 </div>
                             </div>
+
                             <div class="panel-body">
                                 <p class="content-group"></p>
 
-                                <div class="hot-container has-scroll">
-                                    <div id="hot_stores_table"></div>
+                                <div class="hot-container has-scroll" id="storeContainer">
+                                    <div id="stores"></div>
                                 </div>
                             </div>
                         </div>
-                        <!-- /scrolling enabled -->
+                    </div>
+                    <!-- /scrolling enabled stores table-->    
                     </div>
                 </div>
             </div>

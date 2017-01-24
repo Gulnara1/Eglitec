@@ -8,6 +8,10 @@
         <servlet-name>DownloadWindow</servlet-name>
         <servlet-class>com.eglitec.UploadStoresMainIndexes</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StoresSettings</servlet-name>
+        <servlet-class>com.eglitec.stores.StoresSettings</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>EglitecServlet</servlet-name>
         <url-pattern>/EglitecServlet</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>DownloadWindow</servlet-name>
         <url-pattern>/DownloadWindow</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StoresSettings</servlet-name>
+        <url-pattern>/StoresSettings</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

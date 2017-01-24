@@ -99,7 +99,7 @@ public class DataBaseManager {
         return listOrgs;
     }
 
-    public List<Price> getStores(Param param) {
+    public List<Price> getStoresForPrice(Param param) {
 
         List<Price> listStores = new ArrayList<Price>();
         PreparedStatement stmt = null;
@@ -130,16 +130,16 @@ public class DataBaseManager {
         return listStores;
     }
 
-    public List<Price> getCategories() {
+    public List<Price> getCategoriesForPrice() {
 
         List<Price> listCategories = new ArrayList<Price>();
-        log.info("1");
+
         PreparedStatement stmt;
         try {
             stmt = conn.prepareStatement(Selects.SELECT_CATEGORIES_FOR_PRICE);
-            log.info("2");
+
             ResultSet rs = stmt.executeQuery();
-            log.info("3");
+
             while (rs.next()) {
                 Price price = new Price();
                 price.setIdCat(rs.getInt("fk_prd_pgr"));
@@ -157,34 +157,33 @@ public class DataBaseManager {
         return listCategories;
     }
 
-    public List<Price> getItems(Param param) {
-        
+    public List<Price> getItemsForPrice(Param param) {
+
         List<Price> itemsList = new ArrayList<Price>();
         PreparedStatement stmt = null;
         try {
 
             stmt = conn.prepareStatement(Selects.SELECT_ITEMS_FOR_PRICES);
-            //stmt.setInt(1, param.getFromDate());
 //            for (int i = 0; i < param.getAbc().length(); i++) {
-                stmt.setInt(1, param.getStoreIds().get(0));//only then one store selected
+            stmt.setInt(1, param.getStoreIds().get(0));//only then one store selected
 //            }
             stmt.setInt(2, param.getFromDate());
             stmt.setInt(3, param.getCategoriesId().get(0));//only then one category selected
-            
+
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Price price = new Price();
                 price.setIdItem(rs.getInt("fk_prd"));
                 price.setDescr(rs.getString("prd_descr"));
-                price.setPed(rs.getInt("ped"));
-                price.setPriceCurr(rs.getInt("price_curr"));
-                price.setPriceNext(rs.getInt("price_next"));
-                price.setSalesNext(rs.getInt("sales_next"));
-                price.setGprofitNext(rs.getInt("gprofit_next"));
-                price.setPriceOptim(rs.getInt("price_optim"));
-                price.setSalesOptim(rs.getInt("sales_optim"));
-                price.setGprofitOptim(rs.getInt("gprofit_optim"));
+                price.setPed(rs.getFloat("ped"));
+                price.setPriceCurr(rs.getFloat("price_curr"));
+                price.setPriceNext(rs.getFloat("price_next"));
+                price.setSalesNext(rs.getFloat("sales_next"));
+                price.setGprofitNext(rs.getFloat("gprofit_next"));
+                price.setPriceOptim(rs.getFloat("price_optim"));
+                price.setSalesOptim(rs.getFloat("sales_optim"));
+                price.setGprofitOptim(rs.getFloat("gprofit_optim"));
                 itemsList.add(price);
             }
         } catch (Exception ex) {
@@ -192,5 +191,32 @@ public class DataBaseManager {
             log.info(ex);
         }
         return itemsList;
+    }
+
+    public List<Organization> getStoresForSettings() {
+
+        List<Organization> storesList = new ArrayList<Organization>();
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement(Selects.SELECT_STORES_FOR_SETTINGS);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Organization organization = new Organization();
+                organization.setId(rs.getInt("id"));
+                organization.setDesc(rs.getString("descr"));
+                organization.setFloorSpace(rs.getFloat("floor_space"));
+                organization.setAbc(rs.getString("abc"));
+                organization.setIsPriceAuto(rs.getInt("is_price_auto"));
+                organization.setIsPriceRounding(rs.getInt("is_price_rounding"));
+                organization.setPriceChangeStep(rs.getFloat("price_change_step"));
+                organization.setPriceOptimGoal(rs.getInt("price_optim_goal"));
+                storesList.add(organization);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            log.error(ex);
+        }
+        return storesList;
     }
 }

@@ -19,28 +19,25 @@ import java.util.List;
  */
 public class PricesPageManager {
 
-    private org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(UploadStoresMainIndexes.class);
+    private org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(PricesPageManager.class);
     public String getJson(Connection conn, Param param){
 
         DataBaseManager dbm = new DataBaseManager(conn);
         Gson gson = new Gson();
         PageData pageData = new PageData();
-        String dataJson = null;
-        if (param.getStoreIds() != null) {
-            List<Price> itemsList = dbm.getItems(param);
-            dataJson = gson.toJson(itemsList);
+        if (param.getP() == 'i') {
+            List<Price> itemsList = dbm.getItemsForPrice(param);
+            return gson.toJson(itemsList);
 
         } else {
-            List<Price> storesList = dbm.getStores(param);
-            List<Price> catList = dbm.getCategories();
+            List<Price> storesList = dbm.getStoresForPrice(param);
+            List<Price> catList = dbm.getCategoriesForPrice();
                         
-            logger.info(catList.size());
             pageData.setChartJson(gson.toJson(storesList));// it's not chart Json. We use this method only in nextBestPrices, becouse the page is different/
             pageData.setTableJson(gson.toJson(catList));///
             
-            dataJson = gson.toJson(pageData);
+            return gson.toJson(pageData);
          }
-        return dataJson;
     }
 }
 

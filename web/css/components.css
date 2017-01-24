@@ -13773,7 +13773,7 @@ a.plupload_disabled:focus {
   min-width: 100%;
 }
 .hot-container.has-scroll {
-  height: 600px;
+  height: 480px;
   overflow: hidden;
 }
 @media (max-width: 1024px) {

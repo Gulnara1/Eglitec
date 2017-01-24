@@ -76,5 +76,13 @@ public class Selects {
             + "and f.ped < 0\n"
             + "and f.price_next-f.unitcost>0\n"
             + "order by ped";
-
+    public static final String SELECT_STORES_FOR_SETTINGS = "SELECT o.id, o.descr, \n"
+            + "o.floor_space, \n"
+            + "o.abc, \n"
+            + "o.is_price_auto, \n"
+            + "o.is_price_rounding, \n"
+            + "o.price_change_step,\n"
+            + "o.price_optim_goal \n"
+            + "FROM egl.egl_d_org o\n"
+            + "where o.floor_space > 0";
 }

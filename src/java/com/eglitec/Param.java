@@ -16,14 +16,14 @@ public class Param {
     /**
      * @return the p
      */
-    public String getP() {
+    public char getP() {
         return p;
     }
 
     /**
      * @param p the p to set
      */
-    public void setP(String p) {
+    public void setP(char p) {
         this.p = p;
     }
 
@@ -102,5 +102,5 @@ public class Param {
     private String abc;
     private ArrayList<Integer> stores;
     private ArrayList<Integer> categories;
-    private String p;
+    private char p;
 }

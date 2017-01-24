@@ -12,6 +12,62 @@ package com.eglitec.stores;
 public class Organization {
 
     /**
+     * @return the isPriceAuto
+     */
+    public int getIsPriceAuto() {
+        return isPriceAuto;
+    }
+
+    /**
+     * @param isPriceAuto the isPriceAuto to set
+     */
+    public void setIsPriceAuto(int isPriceAuto) {
+        this.isPriceAuto = isPriceAuto;
+    }
+
+    /**
+     * @return the isPriceRounding
+     */
+    public int getIsPriceRounding() {
+        return isPriceRounding;
+    }
+
+    /**
+     * @param isPriceRounding the isPriceRounding to set
+     */
+    public void setIsPriceRounding(int isPriceRounding) {
+        this.isPriceRounding = isPriceRounding;
+    }
+
+    /**
+     * @return the priceChangeStep
+     */
+    public float getPriceChangeStep() {
+        return priceChangeStep;
+    }
+
+    /**
+     * @param priceChangeStep the priceChangeStep to set
+     */
+    public void setPriceChangeStep(float priceChangeStep) {
+        this.priceChangeStep = priceChangeStep;
+    }
+
+    /**
+     * @return the priceOptimGoal
+     */
+    public int getPriceOptimGoal() {
+        return priceOptimGoal;
+    }
+
+    /**
+     * @param priceOptimGoal the priceOptimGoal to set
+     */
+    public void setPriceOptimGoal(int priceOptimGoal) {
+        this.priceOptimGoal = priceOptimGoal;
+    }
+
+    /**
      * @return the id
      */
     public int getId() {
@@ -56,14 +112,14 @@ public class Organization {
     /**
      * @return the floorSpace
      */
-    public int getFloorSpace() {
+    public float getFloorSpace() {
         return floorSpace;
     }
 
     /**
      * @param floorSpace the floorSpace to set
      */
-    public void setFloorSpace(int floorSpace) {
+    public void setFloorSpace(float floorSpace) {
         this.floorSpace = floorSpace;
     }
 
@@ -123,14 +179,16 @@ public class Organization {
         this.abc = abc;
     }
     
-    
     private int id;
     private String desc;
     private int clusterId;
-    private int floorSpace;
+    private float floorSpace;
     private int sales;
     private int grossProfit;
     private int tickets;
     private String abc;
-        
+    private int isPriceAuto;
+    private int isPriceRounding;
+    private float priceChangeStep;
+    private int priceOptimGoal;
 }
