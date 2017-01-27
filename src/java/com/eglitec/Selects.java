@@ -48,16 +48,16 @@ public class Selects {
             + "and a.is_price_auto >0"
             + "group by a.id, a.descr, a.abc, a.floor_space\n"
             + "order by gprofit_optim";
-    public static final String SELECT_CATEGORIES_FOR_PRICE = "with	g as (select * from egl.egl_d_prd_gr where id > 900000000),\n"
-            + "	p as (select * from egl.egl_d_prd),\n"
-            + "	f as (select * from egl.egl_s_sls_prd_f_m)\n"
-            + "select 	g.id fk_prd_pgr, g.long_descr pgr_descr,\n"
+    public static final String SELECT_CATEGORIES_FOR_PRICE = "select 	g.id fk_prd_pgr, g.long_descr pgr_descr,\n"
             + "	sum(f.sales_optim_qty*f.price_optim) sales_optim,\n"
             + "	sum(f.sales_optim_qty*(f.price_optim-f.unitcost)) gprofit_optim,\n"
             + "	sum(f.sales_next_qty*f.price_optim) sales_next,\n"
             + "	sum(f.sales_next_qty*(f.price_next-f.unitcost)) gprofit_next\n"
-            + "from g join p on g.id = p.fk_prd_pgr\n"
-            + "left outer join f on p.id = f.fk_prd\n"
+            + "from egl.egl_d_prd_gr g \n"
+            + "join egl.egl_d_prd p on g.id = p.fk_prd_pgr\n"
+            + "left outer join egl.egl_s_sls_prd_f_m f on p.id = f.fk_prd\n"
+            + "where g.id > 900000000\n"
+            + "and g.is_price_auto > 0\n"
             + "group by g.id, g.long_descr\n"
             + "order by gprofit_optim";
     public static final String SELECT_ITEMS_FOR_PRICES = "select 	p.id fk_prd, p.descr prd_descr, ped,\n"
@@ -85,4 +85,10 @@ public class Selects {
             + "o.price_optim_goal \n"
             + "FROM egl.egl_d_org o\n"
             + "where o.floor_space > 0";
+    public static final String UPDATE_STORES_FOR_SETTINGS = "UPDATE egl.egl_d_org  \n"
+            + "SET is_price_auto = ?,\n"
+            + "is_price_rounding = ?,\n"
+            + "price_change_step = ?,\n"
+            + "price_optim_goal = ?\n"
+            + "where id = ?";
 }

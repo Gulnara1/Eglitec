@@ -1,6 +1,6 @@
 // numeral.js locale configuration
-// locale : Finnish
-// author : Sami Saada : https://github.com/samitheberber
+// locale : spanish Spain
+// author : Hernan Garcia : https://github.com/hgarcia
 
 (function (global, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -11,19 +11,24 @@
         factory(global.numeral);
     }
 }(this, function (numeral) {
-    numeral.register('locale', 'fi', {
+    numeral.register('locale', 'es-es', {
         delimiters: {
-            thousands: ' ',
+            thousands: '.',
             decimal: ','
         },
         abbreviations: {
             thousand: 'k',
-            million: 'M',
-            billion: 'G',
-            trillion: 'T'
+            million: 'mm',
+            billion: 'b',
+            trillion: 't'
         },
         ordinal: function (number) {
-            return '.';
+            var b = number % 10;
+            return (b === 1 || b === 3) ? 'er' :
+                (b === 2) ? 'do' :
+                    (b === 7 || b === 0) ? 'mo' :
+                        (b === 8) ? 'vo' :
+                            (b === 9) ? 'no' : 'to';
         },
         currency: {
             symbol: '€'

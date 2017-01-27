@@ -41,7 +41,7 @@ $(function () {
 /////////
     $('#panel-body').click(function () {
 ///get selected date_month and abc
-        $('#itemsDiv').hide();
+        // $('#itemsDiv').hide();
         dateMonth = $("#date_month").val();
         checkboxes = document.getElementsByName('abc');
         selectedABC = "";
@@ -60,8 +60,6 @@ $(function () {
 });
 ///////
 function getItems() {
-
-
     $.ajax({
         url: getPath() + 'Eglitec/NextBestPricesServlet',
         type: 'POST',
@@ -73,16 +71,17 @@ function getItems() {
             p: 'i'},
         success: function (data) {
 
-            $('#itemsDiv').show();
+            //
             if (data.length == 0)
             {
                 document.getElementById('items').innerHTML = "Нет данных";
-                $('#itemsContainer').css("height", 2 * 36 + 'px');
-                document.getElementById("updateItems").disabled = true;
+                setContainerHeight(0, '#itemsContainer');
             } else
             {
+                setContainerHeight(data.length, '#itemsContainer');
                 createItemsTable(data);
             }
+            $('#itemsDiv').show();
         }
     });
 }
@@ -104,18 +103,20 @@ function getStoresCategories(dateMonth, abc) {
             if (storeJson.length == 0)
             {
                 document.getElementById('stores').innerHTML = "Нет данных";
-                $('#storeContainer').css("height", 2 * 36 + 'px');
+                setContainerHeight(0, '#storeContainer');
             } else
             {
                 createStoresTable(storeJson);
+                setContainerHeight(storeJson.length, '#storeContainer');
             }
             if (catJson.length == 0)
             {
                 document.getElementById('categories').innerHTML = "Нет данных";
-                $('#catContainer').css("height", 2 * 36 + 'px');
+                setContainerHeight(0, '#catContainer');
             } else
             {
                 createCategoriesTable(catJson);
+                setContainerHeight(catJson.length, '#catContainer');
             }
         }
     });
@@ -135,6 +136,7 @@ function createStoresTable(jsonObject) {
             salesNext: value.salesNext,
             gprofitNext: value.gprofitNext,
         });
+
         n++;
     });
     colHeaders = [
@@ -147,54 +149,118 @@ function createStoresTable(jsonObject) {
         'salesNext',
         'gprofitNext'
     ];
-    function negativeValueRenderer(instance, td, row, col, prop, value, cellProperties) {
-        Handsontable.renderers.TextRenderer.apply(this, arguments);
-        td.style.color = '#000000';
-        if (!value || value === 0) {
-            td.style.background = '#DCDCDC';
-        }
-        if (!value || !isNaN(value)) {
-            cellProperties.className = "htRight";
-        }
-    }
-    Handsontable.renderers.registerRenderer('negativeValueRenderer', negativeValueRenderer);
     handsontable = new Handsontable(container, {
         data: hot_data,
         stretchH: 'all',
-        minRows: 2,
-        minCols: 2,
         columnSorting: true,
         manualColumnResize: true,
         sortIndicator: true,
         readOnly: true,
         currentRowClassName: 'currentRow',
         outsideClickDeselects: false,
-        afterInit: function () {
-            console.log("Handsontable initialized!");
-        },
+        columns: [
+            {
+                data: 'n',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                }
+            },
+            {
+                data: 'idStore',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                }
+            },
+            {
+                data: 'descr',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                }
+            },
+            {
+                data: 'abc',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                }
+            },
+            {
+                data: 'salesOptim',
+                type: 'numeric',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    if (!value || value === 0) {
+                        td.style.background = '#DCDCDC';
+                    }
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                },
+                format: '0,0.00 $',
+                language: 'ru-RU'
+            },
+            {
+                data: 'gprofitOptim',
+                type: 'numeric',
+                format: '0,0[.]00 $',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    if (!value || value === 0) {
+                        td.style.background = '#DCDCDC';
+                    }
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                },
+//                language: 'de'
+            },
+            {
+                data: 'salesNext',
+                type: 'numeric',
+                format: '0,0[.]00 $',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    if (!value || value === 0) {
+                        td.style.background = '#DCDCDC';
+                    }
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                },
+//                language: 'de'
+            },
+            {
+                data: 'gprofitNext',
+                type: 'numeric',
+                format: '0,0[.]00 $',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    if (!value || value === 0) {
+                        td.style.background = '#DCDCDC';
+                    }
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                },
+//                language: 'de'
+            }
+        ],
         afterSelection: function (row, col, row1, col1) {
             selection = this.getData(row, 1, row, 1);
             selectedStoreId = selection[0].toString();
-            console.log(selectedStoreId);
-
         },
         colHeaders,
         cells: function (row, col, prop) {
             var cellProperties = {};
 
             if (row === 0 || this.instance.getData()[row][col] === 'readOnly') {
+
                 cellProperties.readOnly = true; // make cell read-only if it is first row or the text reads 'readOnly'
             }
-            if (col === 0)
+            if (col <= 1)
             {
                 cellProperties.className = "htCenter htMiddle";
             }
-
-            cellProperties.renderer = "negativeValueRenderer"; // uses lookup map
             return cellProperties;
         }
     });
-    setContainerHeight(jsonObject.length, '#storeContainer');
+
+
     $("#export_csv").on('click', function () {
         hrlatorCSV(colHeaders, hot_data);//handsontable.js
     });
@@ -225,17 +291,6 @@ function createCategoriesTable(jsonObject) {
         'salesNext',
         'gprofitNext'
     ];
-    function negativeValueRenderer(instance, td, row, col, prop, value, cellProperties) {
-        Handsontable.renderers.TextRenderer.apply(this, arguments);
-        td.style.color = '#000000';
-        if (!value || value === 0) {
-            td.style.background = '#DCDCDC';
-        }
-        if (!value || !isNaN(value)) {
-            cellProperties.className = "htRight";
-        }
-    }
-    Handsontable.renderers.registerRenderer('negativeValueRenderer', negativeValueRenderer);
     handsontable = new Handsontable(container, {
         data: hot_data,
         stretchH: 'all',
@@ -247,13 +302,84 @@ function createCategoriesTable(jsonObject) {
         readOnly: true,
         currentRowClassName: 'currentRow',
         outsideClickDeselects: false,
-        afterInit: function () {
-            console.log("Handsontable initialized!");
-        },
+        columns: [
+            {
+                data: 'n',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                }
+            },
+            {
+                data: 'idCat',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                }
+            },
+            {
+                data: 'descr',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                }
+            },
+            {
+                data: 'salesOptim',
+                type: 'numeric',
+                format: '0,0.00 $',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    if (!value || value === 0) {
+                        td.style.background = '#DCDCDC';
+                    }
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                },
+//                language: 'de'
+            },
+            {
+                data: 'gprofitOptim',
+                type: 'numeric',
+                format: '0,0.00 $',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    if (!value || value === 0) {
+                        td.style.background = '#DCDCDC';
+                    }
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                },
+//                language: 'de'
+            },
+            {
+                data: 'salesNext',
+                type: 'numeric',
+                format: '0,0.00 $',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    if (!value || value === 0) {
+                        td.style.background = '#DCDCDC';
+                    }
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                },
+//                language: 'de'
+            },
+            {
+                data: 'gprofitNext',
+                type: 'numeric',
+                format: '0,0.00 $',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    if (!value || value === 0) {
+                        td.style.background = '#DCDCDC';
+                    }
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                },
+//                language: 'de'
+            }
+        ],
         afterSelection: function (row, col, row1, col1) {
             selection = this.getData(row, 1, row, 1);
             selectedCatId = selection[0].toString();
-            console.log(selectedCatId);
         },
         colHeaders,
         cells: function (row, col, prop) {
@@ -266,11 +392,9 @@ function createCategoriesTable(jsonObject) {
             {
                 cellProperties.className = "htCenter htMiddle";
             }
-            cellProperties.renderer = "negativeValueRenderer"; // uses lookup map
             return cellProperties;
         }
     });
-    setContainerHeight(jsonObject.length, '#catContainer');
 
     $("#export_csv").on('click', function () {
         hrlatorCSV(colHeaders, hot_data);//handsontable.js
@@ -310,17 +434,6 @@ function createItemsTable(jsonObject) {
         'salesOptim',
         'gprofitOptim'
     ];
-    function negativeValueRenderer(instance, td, row, col, prop, value, cellProperties) {
-        Handsontable.renderers.TextRenderer.apply(this, arguments);
-        td.style.color = '#000000';
-        if (!value || value === 0) {
-            td.style.background = '#DCDCDC';
-        }
-        if (!value || !isNaN(value)) {
-            cellProperties.className = "htRight";
-        }
-    }
-    Handsontable.renderers.registerRenderer('negativeValueRenderer', negativeValueRenderer);
     handsontable = new Handsontable(container, {
         data: hot_data,
         stretchH: 'all',
@@ -332,16 +445,135 @@ function createItemsTable(jsonObject) {
         readOnly: true,
         currentRowClassName: 'currentRow',
         outsideClickDeselects: false,
+        columns: [
+            {
+                data: 'n',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                }
+            },
+            {
+                data: 'idItem',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                }
+            },
+            {
+                data: 'descr',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                }
+            },
+            {
+                data: 'ped',
+                type: 'numeric',
+                format: '0,0.00 $',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    if (!value || value === 0) {
+                        td.style.background = '#DCDCDC';
+                    }
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                },
+//                language: 'de'
+            },
+            {
+                data: 'priceCurr',
+                type: 'numeric',
+                format: '0,0.00 $',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    if (!value || value === 0) {
+                        td.style.background = '#DCDCDC';
+                    }
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                },
+//                language: 'de'
+            },
+            {
+                data: 'priceNext',
+                type: 'numeric',
+                format: '0,0.00 $',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    if (!value || value === 0) {
+                        td.style.background = '#DCDCDC';
+                    }
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                },
+//                language: 'de'
+            },
+            {
+                data: 'salesNext',
+                type: 'numeric',
+                format: '0,0.00 $',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    if (!value || value === 0) {
+                        td.style.background = '#DCDCDC';
+                    }
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                },
+//                language: 'de'
+            },
+            {
+                data: 'gprofitNext',
+                type: 'numeric',
+                format: '0,0.00 $',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    if (!value || value === 0) {
+                        td.style.background = '#DCDCDC';
+                    }
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                },
+//                language: 'de'
+            },
+            {
+                data: 'priceOptim',
+                type: 'numeric',
+                format: '0,0.00 $',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    if (!value || value === 0) {
+                        td.style.background = '#DCDCDC';
+                    }
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                },
+//                language: 'de'
+            },
+            {
+                data: 'salesOptim',
+                type: 'numeric',
+                format: '0,0.00 $',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    if (!value || value === 0) {
+                        td.style.background = '#DCDCDC';
+                    }
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                },
+//                language: 'de'
+            },
+            {
+                data: 'gprofitOptim',
+                type: 'numeric',
+                format: '0,0.00 $',
+                renderer: function (instance, td, row, col, prop, value, cellProperties) {
+                    td.style.color = '#000000';
+                    if (!value || value === 0) {
+                        td.style.background = '#DCDCDC';
+                    }
+                    Handsontable.NumericCell.renderer.apply(this, arguments);
+                },
+//                language: 'de'
+            }
+        ],
         afterInit: function () {
             console.log("Handsontable Items initialized!");
-        },
-        afterChange: function (change, source) {
-
-//            console.log(change);
-//            console.log(source);
-            if (source === 'loadData') {
-                return;
-            }
         },
         colHeaders,
         cells: function (row, col, prop) {
@@ -354,11 +586,9 @@ function createItemsTable(jsonObject) {
             {
                 cellProperties.className = "htCenter htMiddle";
             }
-            cellProperties.renderer = "negativeValueRenderer"; // uses lookup map
             return cellProperties;
         }
     });
-    setContainerHeight(jsonObject.length, '#itemsContainer');
 
     $("#export_csv").on('click', function () {
         hrlatorCSV(colHeaders, hot_data);//handsontable.js
@@ -366,9 +596,12 @@ function createItemsTable(jsonObject) {
 }
 function setContainerHeight(rowsCount, containerId) {
 
-    if (rowsCount < 14) {
+    if (rowsCount < 15) {
 
-        $(containerId).css("height", (rowsCount+3) * 30 + 'px');
+        $(containerId).css("height", (rowsCount + 1.4) * 30 + 'px');
+    } else if (rowsCount > 15)
+    {
+        $(containerId).css("height", 480 + 'px');
     }
 }
 

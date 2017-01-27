@@ -1,10 +1,17 @@
-/*! 
- * numeral.js language configuration
- * language : simplified chinese
- * author : badplum : https://github.com/badplum
- */
-(function () {
-    var language = {
+// numeral.js locale configuration
+// locale : simplified chinese (chs)
+// author : badplum : https://github.com/badplum
+
+(function (global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['../numeral'], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        factory(require('../numeral'));
+    } else {
+        factory(global.numeral);
+    }
+}(this, function (numeral) {
+    numeral.register('locale', 'chs', {
         delimiters: {
             thousands: ',',
             decimal: '.'
@@ -21,14 +28,5 @@
         currency: {
             symbol: '¥'
         }
-    };
-
-    // Node
-    if (typeof module !== 'undefined' && module.exports) {
-        module.exports = language;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.numeral && this.numeral.language) {
-        this.numeral.language('chs', language);
-    }
-}());
+    });
+}));

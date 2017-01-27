@@ -1,10 +1,17 @@
-/*! 
- * numeral.js language configuration
- * language : english united kingdom (uk)
- * author : Dan Ristic : https://github.com/dristic
- */
-(function () {
-    var language = {
+// numeral.js locale configuration
+// locale : english united kingdom (uk)
+// author : Dan Ristic : https://github.com/dristic
+
+(function (global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['../numeral'], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        factory(require('../numeral'));
+    } else {
+        factory(global.numeral);
+    }
+}(this, function (numeral) {
+    numeral.register('locale', 'en-gb', {
         delimiters: {
             thousands: ',',
             decimal: '.'
@@ -25,14 +32,5 @@
         currency: {
             symbol: '£'
         }
-    };
-
-    // Node
-    if (typeof module !== 'undefined' && module.exports) {
-        module.exports = language;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.numeral && this.numeral.language) {
-        this.numeral.language('en-gb', language);
-    }
-}());
+    });
+}));

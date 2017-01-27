@@ -43,6 +43,17 @@ public class StoresSettings extends HttpServlet {
             Connection conn = (Connection) getServletContext().getAttribute("DBConnection");
             DataBaseManager dbm = new DataBaseManager(conn);
             Gson gson = new Gson();
+            
+            if(request.getParameter("id")!=null){
+                Organization organization = new Organization();
+                organization.setIsPriceAuto(Integer.parseInt(request.getParameter("isPriceAuto")));
+                organization.setIsPriceRounding(Integer.parseInt(request.getParameter("isPriceRounding")));
+                organization.setPriceChangeStep(Float.parseFloat(request.getParameter("priceChangeStep")));
+                organization.setPriceOptimGoal(Integer.parseInt(request.getParameter("priceOptimGoal")));
+                organization.setId(Integer.parseInt(request.getParameter("id")));
+                dbm.updateStoresForSettings(organization);
+            }
+            
             List<Organization> storesList = dbm.getStoresForSettings();
             String dataJson = gson.toJson(storesList);
             response.setContentType("application/json");

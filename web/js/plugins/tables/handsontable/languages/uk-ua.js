@@ -1,6 +1,6 @@
 // numeral.js locale configuration
-// locale : czech (cs)
-// author : Anatoli Papirovski : https://github.com/apapirovski
+// locale : Ukrainian for the Ukraine (uk-ua)
+// author : Michael Piefel : https://github.com/piefel (with help from Tetyana Kuzmenko)
 
 (function (global, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -11,22 +11,25 @@
         factory(global.numeral);
     }
 }(this, function (numeral) {
-    numeral.register('locale', 'cs', {
+    numeral.register('locale', 'uk-ua', {
         delimiters: {
             thousands: ' ',
             decimal: ','
         },
         abbreviations: {
-            thousand: 'tis.',
-            million: 'mil.',
-            billion: 'b',
-            trillion: 't'
+            thousand: 'тис.',
+            million: 'млн',
+            billion: 'млрд',
+            trillion: 'блн'
         },
         ordinal: function () {
-            return '.';
+            // not ideal, but since in Ukrainian it can taken on
+            // different forms (masculine, feminine, neuter)
+            // this is all we can do
+            return '';
         },
         currency: {
-            symbol: 'Kč'
+            symbol: '\u20B4'
         }
     });
 }));

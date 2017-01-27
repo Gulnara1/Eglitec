@@ -1,6 +1,6 @@
 // numeral.js locale configuration
-// locale : Finnish
-// author : Sami Saada : https://github.com/samitheberber
+// locale : Russian for the Ukraine (ru-ua)
+// author : Anatoli Papirovski : https://github.com/apapirovski
 
 (function (global, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -11,22 +11,25 @@
         factory(global.numeral);
     }
 }(this, function (numeral) {
-    numeral.register('locale', 'fi', {
+    numeral.register('locale', 'ru-ua', {
         delimiters: {
             thousands: ' ',
             decimal: ','
         },
         abbreviations: {
-            thousand: 'k',
-            million: 'M',
-            billion: 'G',
-            trillion: 'T'
+            thousand: 'тыс.',
+            million: 'млн',
+            billion: 'b',
+            trillion: 't'
         },
-        ordinal: function (number) {
+        ordinal: function () {
+            // not ideal, but since in Russian it can taken on
+            // different forms (masculine, feminine, neuter)
+            // this is all we can do
             return '.';
         },
         currency: {
-            symbol: '€'
+            symbol: '\u20B4'
         }
     });
 }));

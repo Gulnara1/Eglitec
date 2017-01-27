@@ -1,13 +1,18 @@
-/*! 
- * numeral.js language configuration
- * language : Estonian
- * author : Illimar Tambek : https://github.com/ragulka
- *
- * Note: in Estonian, abbreviations are always separated
- * from numbers with a space
- */
-(function () {
-    var language = {
+// numeral.js locale configuration
+// locale : Estonian
+// author : Illimar Tambek : https://github.com/ragulka
+// Note: in Estonian, abbreviations are always separated from numbers with a space
+
+(function (global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['../numeral'], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        factory(require('../numeral'));
+    } else {
+        factory(global.numeral);
+    }
+}(this, function (numeral) {
+    numeral.register('locale', 'et', {
         delimiters: {
             thousands: ' ',
             decimal: ','
@@ -24,14 +29,5 @@
         currency: {
             symbol: '€'
         }
-    };
-
-    // Node
-    if (typeof module !== 'undefined' && module.exports) {
-        module.exports = language;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.numeral && this.numeral.language) {
-        this.numeral.language('et', language);
-    }
-}());
+    });
+}));

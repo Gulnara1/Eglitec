@@ -1,6 +1,6 @@
 // numeral.js locale configuration
-// locale : Finnish
-// author : Sami Saada : https://github.com/samitheberber
+// locale : english south africa (uk)
+// author : Etienne Boshoff : etienne@zailab.com
 
 (function (global, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -11,22 +11,26 @@
         factory(global.numeral);
     }
 }(this, function (numeral) {
-    numeral.register('locale', 'fi', {
+    numeral.register('locale', 'en-za', {
         delimiters: {
             thousands: ' ',
             decimal: ','
         },
         abbreviations: {
             thousand: 'k',
-            million: 'M',
-            billion: 'G',
-            trillion: 'T'
+            million: 'm',
+            billion: 'b',
+            trillion: 't'
         },
         ordinal: function (number) {
-            return '.';
+            var b = number % 10;
+            return (~~ (number % 100 / 10) === 1) ? 'th' :
+                (b === 1) ? 'st' :
+                    (b === 2) ? 'nd' :
+                        (b === 3) ? 'rd' : 'th';
         },
         currency: {
-            symbol: '€'
+            symbol: 'R'
         }
     });
 }));
