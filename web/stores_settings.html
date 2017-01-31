@@ -172,12 +172,22 @@ and open the template in the editor.
                             </div>
 
                             <div class="panel-body">
+                                <div class="form-group has-feedback has-feedback-left">
+                                    <input type="text" id="hot_search_callback_input" class="form-control" placeholder="Search">
+                                    <div class="form-control-feedback">
+                                        <i class="icon-search4 text-size-small"></i>
+                                    </div>
+                                </div>
+                                <p class="content-group"><span class="text-semibold" id="result-count">0</span> results found</p> 
                                 <p class="content-group"></p>
-
+                                <div class="text-left" id="saveDiv"></div>
                                 <div class="hot-container has-scroll" id="storeContainer">
                                     <div id="stores"></div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="text-right">
+                            <button id="save" onclick="save1()"> Сохранить </button>
                         </div>
                     </div>
                     <!-- /scrolling enabled stores table-->    

@@ -1,6 +1,6 @@
 
-var selectedStoreId;
-var selectedCatId;
+var selectedStoreId = 0;
+var selectedCatId = 0;
 var dateMonth;
 $(function () {
 //item div not visible while store and  category are not checked
@@ -60,30 +60,39 @@ $(function () {
 });
 ///////
 function getItems() {
-    $.ajax({
-        url: getPath() + 'Eglitec/NextBestPricesServlet',
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            dateMonth: dateMonth,
-            storeId: selectedStoreId,
-            catId: selectedCatId,
-            p: 'i'},
-        success: function (data) {
 
-            //
-            if (data.length == 0)
-            {
-                document.getElementById('items').innerHTML = "Нет данных";
-                setContainerHeight(0, '#itemsContainer');
-            } else
-            {
-                setContainerHeight(data.length, '#itemsContainer');
-                createItemsTable(data);
+    if (selectedStoreId == 0 || selectedCatId == 0) {
+        document.getElementById('items').innerHTML = "Выберите магазин и категорию";
+        setContainerHeight(0, '#itemsContainer');
+    } else {
+        $.ajax({
+            url: getPath() + 'Eglitec/NextBestPricesServlet',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                dateMonth: dateMonth,
+                storeId: selectedStoreId,
+                catId: selectedCatId,
+                p: 'i'},
+            success: function (data) {
+
+                //
+                if (data.length == 0)
+                {
+                    document.getElementById('items').innerHTML = "Нет данных";
+                    setContainerHeight(0, '#itemsContainer');
+                } else
+                {
+                    setContainerHeight(data.length, '#itemsContainer');
+                    createItemsTable(data);
+                }
+                selectedCatId = 0;
+                selectedStoreId = 0;
             }
-            $('#itemsDiv').show();
-        }
-    });
+        });
+    }
+    $('#itemsDiv').show();
+
 }
 ////get Stores and Categories from server
 function getStoresCategories(dateMonth, abc) {
@@ -197,13 +206,13 @@ function createStoresTable(jsonObject) {
                     }
                     Handsontable.NumericCell.renderer.apply(this, arguments);
                 },
-                format: '0,0.00 $',
+                format: '0,0[.]00 ',
                 language: 'ru-RU'
             },
             {
                 data: 'gprofitOptim',
                 type: 'numeric',
-                format: '0,0[.]00 $',
+                format: '0,0[.]00 ',
                 renderer: function (instance, td, row, col, prop, value, cellProperties) {
                     td.style.color = '#000000';
                     if (!value || value === 0) {
@@ -216,7 +225,7 @@ function createStoresTable(jsonObject) {
             {
                 data: 'salesNext',
                 type: 'numeric',
-                format: '0,0[.]00 $',
+                format: '0,0[.]00 ',
                 renderer: function (instance, td, row, col, prop, value, cellProperties) {
                     td.style.color = '#000000';
                     if (!value || value === 0) {
@@ -229,7 +238,7 @@ function createStoresTable(jsonObject) {
             {
                 data: 'gprofitNext',
                 type: 'numeric',
-                format: '0,0[.]00 $',
+                format: '0,0[.]00 ',
                 renderer: function (instance, td, row, col, prop, value, cellProperties) {
                     td.style.color = '#000000';
                     if (!value || value === 0) {
@@ -327,7 +336,7 @@ function createCategoriesTable(jsonObject) {
             {
                 data: 'salesOptim',
                 type: 'numeric',
-                format: '0,0.00 $',
+                format: '0,0[.]00 ',
                 renderer: function (instance, td, row, col, prop, value, cellProperties) {
                     td.style.color = '#000000';
                     if (!value || value === 0) {
@@ -340,7 +349,7 @@ function createCategoriesTable(jsonObject) {
             {
                 data: 'gprofitOptim',
                 type: 'numeric',
-                format: '0,0.00 $',
+                format: '0,0[.]00 ',
                 renderer: function (instance, td, row, col, prop, value, cellProperties) {
                     td.style.color = '#000000';
                     if (!value || value === 0) {
@@ -353,7 +362,7 @@ function createCategoriesTable(jsonObject) {
             {
                 data: 'salesNext',
                 type: 'numeric',
-                format: '0,0.00 $',
+                format: '0,0[.]00 ',
                 renderer: function (instance, td, row, col, prop, value, cellProperties) {
                     td.style.color = '#000000';
                     if (!value || value === 0) {
@@ -366,7 +375,7 @@ function createCategoriesTable(jsonObject) {
             {
                 data: 'gprofitNext',
                 type: 'numeric',
-                format: '0,0.00 $',
+                format: '0,0[.]00 ',
                 renderer: function (instance, td, row, col, prop, value, cellProperties) {
                     td.style.color = '#000000';
                     if (!value || value === 0) {
@@ -470,7 +479,7 @@ function createItemsTable(jsonObject) {
             {
                 data: 'ped',
                 type: 'numeric',
-                format: '0,0.00 $',
+                format: '0,0.00 ',
                 renderer: function (instance, td, row, col, prop, value, cellProperties) {
                     td.style.color = '#000000';
                     if (!value || value === 0) {
@@ -483,7 +492,7 @@ function createItemsTable(jsonObject) {
             {
                 data: 'priceCurr',
                 type: 'numeric',
-                format: '0,0.00 $',
+                format: '0,0.00 ',
                 renderer: function (instance, td, row, col, prop, value, cellProperties) {
                     td.style.color = '#000000';
                     if (!value || value === 0) {
@@ -496,7 +505,7 @@ function createItemsTable(jsonObject) {
             {
                 data: 'priceNext',
                 type: 'numeric',
-                format: '0,0.00 $',
+                format: '0,0.00 ',
                 renderer: function (instance, td, row, col, prop, value, cellProperties) {
                     td.style.color = '#000000';
                     if (!value || value === 0) {
@@ -509,7 +518,7 @@ function createItemsTable(jsonObject) {
             {
                 data: 'salesNext',
                 type: 'numeric',
-                format: '0,0.00 $',
+                format: '0,0.00 ',
                 renderer: function (instance, td, row, col, prop, value, cellProperties) {
                     td.style.color = '#000000';
                     if (!value || value === 0) {
@@ -522,7 +531,7 @@ function createItemsTable(jsonObject) {
             {
                 data: 'gprofitNext',
                 type: 'numeric',
-                format: '0,0.00 $',
+                format: '0,0.00 ',
                 renderer: function (instance, td, row, col, prop, value, cellProperties) {
                     td.style.color = '#000000';
                     if (!value || value === 0) {
@@ -535,7 +544,7 @@ function createItemsTable(jsonObject) {
             {
                 data: 'priceOptim',
                 type: 'numeric',
-                format: '0,0.00 $',
+                format: '0,0.00 ',
                 renderer: function (instance, td, row, col, prop, value, cellProperties) {
                     td.style.color = '#000000';
                     if (!value || value === 0) {
@@ -548,7 +557,7 @@ function createItemsTable(jsonObject) {
             {
                 data: 'salesOptim',
                 type: 'numeric',
-                format: '0,0.00 $',
+                format: '0,0.00 ',
                 renderer: function (instance, td, row, col, prop, value, cellProperties) {
                     td.style.color = '#000000';
                     if (!value || value === 0) {
@@ -561,7 +570,7 @@ function createItemsTable(jsonObject) {
             {
                 data: 'gprofitOptim',
                 type: 'numeric',
-                format: '0,0.00 $',
+                format: '0,0.00 ',
                 renderer: function (instance, td, row, col, prop, value, cellProperties) {
                     td.style.color = '#000000';
                     if (!value || value === 0) {

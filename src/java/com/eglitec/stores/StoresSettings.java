@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class StoresSettings extends HttpServlet {
 
-    private org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(UploadStoresMainIndexes.class);
+    private org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(StoresSettings.class);
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -47,11 +47,17 @@ public class StoresSettings extends HttpServlet {
             if(request.getParameter("id")!=null){
                 Organization organization = new Organization();
                 organization.setIsPriceAuto(Integer.parseInt(request.getParameter("isPriceAuto")));
+                logger.info("1");
                 organization.setIsPriceRounding(Integer.parseInt(request.getParameter("isPriceRounding")));
+                logger.info("2");
                 organization.setPriceChangeStep(Float.parseFloat(request.getParameter("priceChangeStep")));
+                logger.info("3");
                 organization.setPriceOptimGoal(Integer.parseInt(request.getParameter("priceOptimGoal")));
+                logger.info("4");
                 organization.setId(Integer.parseInt(request.getParameter("id")));
+                logger.info("5");
                 dbm.updateStoresForSettings(organization);
+                logger.info("6");
             }
             
             List<Organization> storesList = dbm.getStoresForSettings();

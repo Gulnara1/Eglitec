@@ -1,8 +1,10 @@
 /* global Handsontable */
+var updatingData = [];
 
 $(function () {
 
     getStores();
+
 });
 ///get Stores from db
 function getStores() {
@@ -17,8 +19,15 @@ function getStores() {
     });
 }
 function createTable(jsonObject) {
-    container = document.getElementById('stores');
+    var container = document.getElementById('stores');
     hot_data = [];
+//            [{n: "Mercedes", isPriceAuto: 1, price: 32500, share: 0.64},
+//        {n: 1, id: 454, desc: "Mira", floorSpace: 155, abc: 'A', isPriceAuto: 1, isPriceRounding: 1, priceChangeStep: 0.2, priceOptimGoal: 1},
+//        {n: 2, id: 464, desc: "Pojar", floorSpace: 300, abc: 'B', isPriceAuto: 0, isPriceRounding: 1, priceChangeStep: 0.3, priceOptimGoal: 2},
+//        {n: 3, id: 474, desc: "Bravo", floorSpace: 250, abc: 'C', isPriceAuto: 1, isPriceRounding: 0, priceChangeStep: 0, priceOptimGoal: 2},
+//        {n: 4, id: 484, desc: "Kalina", floorSpace: 100, abc: 'B', isPriceAuto: 1, isPriceRounding: 0, priceChangeStep: 0.5, priceOptimGoal: 1},
+//        {n: 5, id: 494, desc: "Drujba", floorSpace: 500, abc: 'A', isPriceAuto: 0, isPriceRounding: 1, priceChangeStep: 0.2, priceOptimGoal: 1}
+//    ];
     n = 1;
     jsonObject.forEach(function (value) {
         hot_data.push({n: n,
@@ -36,10 +45,10 @@ function createTable(jsonObject) {
     function isTrue(value) {
         if (value != 1) {
             return 0;
-        }else
+        } else
         {
             return 1;
-        } 
+        }
     }
     function priceOGValues(value) {
         if (value == 1) {
@@ -59,10 +68,12 @@ function createTable(jsonObject) {
 //        'Шаг изменения цены',
 //        'Цель оптимизации'
 //    ];
+//
+//    var isCheckedAuto = 0;
+//    var isCheckedRounding = 0;
+    var updatingData = [];
 
-    var isCheckedAuto = 0;
-    var isCheckedRounding = 0;
-    handsontable = new Handsontable(container, {
+    var handsontable = new Handsontable(container, {
         data: hot_data,
         stretchH: 'all',
         manualColumnResize: true,
@@ -115,15 +126,6 @@ function createTable(jsonObject) {
                 checkedTemplate: 1,
                 uncheckedTemplate: 0,
                 width: 100,
-                renderer: function (instance, td) {
-                    Handsontable.renderers.TextRenderer.apply(this, arguments);
-
-                    if (isCheckedAuto) {
-                        td.style.backgroundColor = '#FF0000';
-                    } else {
-                        td.style.backgroundColor = '';
-                    }
-                }
             },
             {
                 data: 'isPriceRounding',
@@ -131,7 +133,6 @@ function createTable(jsonObject) {
                 checkedTemplate: 1,
                 uncheckedTemplate: 0,
                 width: 100,
-
             },
             {
                 data: 'priceChangeStep',
@@ -157,13 +158,46 @@ function createTable(jsonObject) {
             selection = this.getData(row, 1, row, 1);
             selectedStoreId = selection[0].toString();
         },
-        afterChange: function (row, col, row1, col1, source) {
-
+        afterChange: function (change, source) {
             if (source === 'loadData') {
                 return; //don't save this change
-                console.log("loadData");
             }
-//            updateStore(0, 0, 0.3, 2, 57001);
+            var rowIndex = change[0][0];
+            var allDataInRow = this.getData()[rowIndex];
+            var id = allDataInRow[1];
+            var priceOptimGoal = 0;
+            if (allDataInRow[8] == 'Прибыль') {
+                priceOptimGoal = 1;
+
+            } else if ((allDataInRow[8] == 'Оборот')) {
+
+                priceOptimGoal = 2;
+            };
+
+//            for (var item in updatingData) {
+//                if (updatingData[item].id == id) {
+//                    updatingData.splice(item, 1);
+//                }
+//            }
+//            updatingData.push({id: id,
+//                isPriceAuto: allDataInRow[5],
+//                isPriceRounding: allDataInRow[6],
+//                priceChangeStep: allDataInRow[7],
+//                priceOptimGoal: allDataInRow[8]});
+            console.log(allDataInRow[5]);
+            console.log(allDataInRow[6]);
+            console.log(allDataInRow[7]);
+            console.log(priceOptimGoal);
+            console.log(id);
+            
+            save(allDataInRow[5], allDataInRow[6], allDataInRow[7], priceOptimGoal, id);
+
+        },
+        afterInit: function () {
+            console.log("Handsontable initialized!");
+        },
+        search: {
+            callback: searchResultCounter
         },
         colHeaders: function (col) {
             var txt;
@@ -181,7 +215,7 @@ function createTable(jsonObject) {
                     return 'ABC';
                 case 5:
                     txt = "<span class='position-left'>Авто расчет</span> <input id='isCheckedAuto' type='checkbox' value='isCheckedAuto' class='hot-checker' ";
-                    txt += isCheckedAuto ? 'checked="checked">' : '>';
+//                    txt += isCheckedAuto ? 'checked="checked">' : '>';
                     return txt;
                 case 6:
                     txt = "<span class='position-left'>Округлять</span> <input id='isCheckedRounding' type='checkbox' class='hot-checker' ";
@@ -192,7 +226,8 @@ function createTable(jsonObject) {
                 case 8:
                     return 'Цель оптимизации';
             }
-        },
+        }
+        ,
         cells: function (row, col, prop) {
             var cellProperties = {};
 
@@ -203,16 +238,37 @@ function createTable(jsonObject) {
             return cellProperties;
         }
     });
-    if ($('#isCheckedAuto').attr('checked')) {
-        //isCheckedAuto = true;
-        console.log("Gulya");
-    } else {
-        
-    }
-}
-;
+    // Define count element
+    var resultCount = document.getElementById('result-count');
 
-function updateStore(isPriceAuto, isPriceRounding, priceChangeStep, priceOptimGoal, id) {
+    // Search result count
+    var searchResultCount = 0;
+    function searchResultCounter(instance, row, col, value, result) {
+        Handsontable.Search.DEFAULT_CALLBACK.apply(this, arguments);
+
+        if (result) {
+            searchResultCount++;
+        }
+    }
+    
+    
+    // Define search field
+    var hot_search_callback_input = document.getElementById('hot_search_callback_input');
+
+    // Add event
+    Handsontable.Dom.addEvent(hot_search_callback_input, 'keyup', function(event) {
+        var queryResult;
+
+        searchResultCount = 0;
+        queryResult = handsontable.search.query(this.value);
+        console.log(queryResult);
+        resultCount.innerText = searchResultCount.toString();
+        handsontable.render();
+    });    
+};
+
+function save(isPriceAuto, isPriceRounding, priceChangeStep, priceOptimGoal, id) {
+    
     $.ajax({
         url: getPath() + 'Eglitec/StoresSettings',
         type: 'POST',
@@ -224,8 +280,12 @@ function updateStore(isPriceAuto, isPriceRounding, priceChangeStep, priceOptimGo
             priceOptimGoal: priceOptimGoal,
             id: id},
         success: function (data) {
-            console.log(data);
-            createTable(data);
+            console.log("success!");
         }
     });
 }
+function save1() {
+    
+    document.getElementById('saveDiv').innerHTML = "Cохранено!";
+}
+
