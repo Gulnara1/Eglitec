@@ -43,28 +43,31 @@ public class StoresSettings extends HttpServlet {
             Connection conn = (Connection) getServletContext().getAttribute("DBConnection");
             DataBaseManager dbm = new DataBaseManager(conn);
             Gson gson = new Gson();
-            
-            if(request.getParameter("id")!=null){
-                Organization organization = new Organization();
-                organization.setIsPriceAuto(Integer.parseInt(request.getParameter("isPriceAuto")));
-                logger.info("1");
-                organization.setIsPriceRounding(Integer.parseInt(request.getParameter("isPriceRounding")));
-                logger.info("2");
-                organization.setPriceChangeStep(Float.parseFloat(request.getParameter("priceChangeStep")));
-                logger.info("3");
-                organization.setPriceOptimGoal(Integer.parseInt(request.getParameter("priceOptimGoal")));
-                logger.info("4");
-                organization.setId(Integer.parseInt(request.getParameter("id")));
-                logger.info("5");
-                dbm.updateStoresForSettings(organization);
-                logger.info("6");
+            String result = "0";
+
+            String jsonData = request.getParameter("jsonData");
+
+            if (jsonData != null) {
+
+                StoreSettingsManager settingsManager = new StoreSettingsManager();
+                result = settingsManager.parseJsonAndUpdateData(jsonData, conn)+"";
+
+//                Organization organization = new Organization();
+//                organization.setIsPriceAuto(Integer.parseInt(request.getParameter("isPriceAuto")));
+//                organization.setIsPriceRounding(Integer.parseInt(request.getParameter("isPriceRounding")));
+//                organization.setPriceChangeStep(Float.parseFloat(request.getParameter("priceChangeStep")));
+//                organization.setPriceOptimGoal(Integer.parseInt(request.getParameter("priceOptimGoal")));
+//                organization.setId(Integer.parseInt(request.getParameter("id")));
+//                dbm.updateStoresForSettings(organization);
+            } else {
+
+                List<Organization> storesList = dbm.getStoresForSettings();
+                result = gson.toJson(storesList);
             }
-            
-            List<Organization> storesList = dbm.getStoresForSettings();
-            String dataJson = gson.toJson(storesList);
+
             response.setContentType("application/json");
 
-            response.getWriter().write(dataJson);
+            response.getWriter().write(result);
             processRequest(request, response);
 
         } catch (Exception ex) {

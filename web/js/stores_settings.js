@@ -20,8 +20,8 @@ function getStores() {
 }
 function createTable(jsonObject) {
     var container = document.getElementById('stores');
-    hot_data = [];
-//            [{n: "Mercedes", isPriceAuto: 1, price: 32500, share: 0.64},
+    var hot_data = [];
+//    var data = [{n: "Mercedes", isPriceAuto: 1, price: 32500, share: 0.64},
 //        {n: 1, id: 454, desc: "Mira", floorSpace: 155, abc: 'A', isPriceAuto: 1, isPriceRounding: 1, priceChangeStep: 0.2, priceOptimGoal: 1},
 //        {n: 2, id: 464, desc: "Pojar", floorSpace: 300, abc: 'B', isPriceAuto: 0, isPriceRounding: 1, priceChangeStep: 0.3, priceOptimGoal: 2},
 //        {n: 3, id: 474, desc: "Bravo", floorSpace: 250, abc: 'C', isPriceAuto: 1, isPriceRounding: 0, priceChangeStep: 0, priceOptimGoal: 2},
@@ -68,10 +68,6 @@ function createTable(jsonObject) {
 //        'Шаг изменения цены',
 //        'Цель оптимизации'
 //    ];
-//
-//    var isCheckedAuto = 0;
-//    var isCheckedRounding = 0;
-    var updatingData = [];
 
     var handsontable = new Handsontable(container, {
         data: hot_data,
@@ -166,31 +162,37 @@ function createTable(jsonObject) {
             var allDataInRow = this.getData()[rowIndex];
             var id = allDataInRow[1];
             var priceOptimGoal = 0;
+            var colIndex = this.propToCol(change[0][1]);
+
             if (allDataInRow[8] == 'Прибыль') {
                 priceOptimGoal = 1;
 
             } else if ((allDataInRow[8] == 'Оборот')) {
 
                 priceOptimGoal = 2;
-            };
+            }
+            ;
 
-//            for (var item in updatingData) {
-//                if (updatingData[item].id == id) {
-//                    updatingData.splice(item, 1);
-//                }
-//            }
-//            updatingData.push({id: id,
-//                isPriceAuto: allDataInRow[5],
-//                isPriceRounding: allDataInRow[6],
-//                priceChangeStep: allDataInRow[7],
-//                priceOptimGoal: allDataInRow[8]});
-            console.log(allDataInRow[5]);
-            console.log(allDataInRow[6]);
-            console.log(allDataInRow[7]);
-            console.log(priceOptimGoal);
-            console.log(id);
-            
-            save(allDataInRow[5], allDataInRow[6], allDataInRow[7], priceOptimGoal, id);
+            for (var item in updatingData) {
+                dataItem = updatingData[item];
+
+                if (dataItem.id == id) {
+                    updatingData.splice(item, 1);
+                }
+
+            }
+            updatingData.push({id: id,
+                isPriceAuto: allDataInRow[5],
+                isPriceRounding: allDataInRow[6],
+                priceChangeStep: allDataInRow[7],
+                priceOptimGoal: priceOptimGoal,
+                rowIndex: rowIndex,
+                colIndex: colIndex});
+            for (var item in updatingData) {
+                dataItem = updatingData[item];
+                cell = this.getCell(dataItem.rowIndex, dataItem.colIndex);
+                cell.style.background = '#ffd9b3';
+            }
 
         },
         afterInit: function () {
@@ -243,49 +245,60 @@ function createTable(jsonObject) {
 
     // Search result count
     var searchResultCount = 0;
+
     function searchResultCounter(instance, row, col, value, result) {
         Handsontable.Search.DEFAULT_CALLBACK.apply(this, arguments);
 
         if (result) {
+
             searchResultCount++;
         }
+
     }
-    
-    
+
     // Define search field
     var hot_search_callback_input = document.getElementById('hot_search_callback_input');
 
     // Add event
-    Handsontable.Dom.addEvent(hot_search_callback_input, 'keyup', function(event) {
+    Handsontable.Dom.addEvent(hot_search_callback_input, 'keyup', function (event) {
         var queryResult;
 
         searchResultCount = 0;
         queryResult = handsontable.search.query(this.value);
-        console.log(queryResult);
+        rows = getRowsFromObjects(queryResult);
+//        console.log(rows);
         resultCount.innerText = searchResultCount.toString();
         handsontable.render();
-    });    
-};
+    });
 
-function save(isPriceAuto, isPriceRounding, priceChangeStep, priceOptimGoal, id) {
-    
+    function getRowsFromObjects(queryResult) {
+        var rows = [];
+        for (var i = 0; i < queryResult.length; i++) {
+            rows.push(queryResult[i].row);
+        }
+        return rows;
+    }
+}
+;
+
+function save() {
+
+    var jsonUpdatingData = JSON.stringify(updatingData);
     $.ajax({
         url: getPath() + 'Eglitec/StoresSettings',
         type: 'POST',
         dataType: 'json',
-        data: {
-            isPriceAuto: isPriceAuto,
-            isPriceRounding: isPriceRounding,
-            priceChangeStep: priceChangeStep,
-            priceOptimGoal: priceOptimGoal,
-            id: id},
+        data: {jsonData: jsonUpdatingData
+        },
         success: function (data) {
-            console.log("success!");
+
+            if (data == 1) {
+                document.getElementById('saveDiv').innerHTML = "Cохранено!";
+            } else {
+                document.getElementById('saveDiv').innerHTML = "Ошибка! Элемент " + data + " не сохранен!";
+            }
         }
     });
 }
-function save1() {
-    
-    document.getElementById('saveDiv').innerHTML = "Cохранено!";
-}
+
 

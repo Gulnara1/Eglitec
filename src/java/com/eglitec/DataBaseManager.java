@@ -222,15 +222,13 @@ public class DataBaseManager {
     public boolean updateStoresForSettings(Organization organization) {
         PreparedStatement stmt = null;
         try {
-            String sql = Selects.UPDATE_STORES_FOR_SETTINGS;
-            stmt = conn.prepareStatement(sql);
+            stmt = conn.prepareStatement(Selects.UPDATE_STORES_FOR_SETTINGS);
             stmt.setInt(1, organization.getIsPriceAuto());
             stmt.setInt(2, organization.getIsPriceRounding());
             stmt.setFloat(3, organization.getPriceChangeStep());
             stmt.setInt(4, organization.getPriceOptimGoal());
             stmt.setInt(5, organization.getId());
             stmt.executeUpdate();
-//            conn.commit();
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(DataBaseManager.class.getName()).log(Level.SEVERE, null, ex);
