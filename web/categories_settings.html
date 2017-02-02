@@ -6,11 +6,9 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Eglitec stores</title>
-
+        <title>Eglitec categories settings</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
         <!-- Global stylesheets -->
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
@@ -28,16 +26,12 @@ and open the template in the editor.
         <script type="text/javascript" src="js/core/libraries/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/loaders/blockui.min.js"></script>
         <script type="text/javascript" src="js/plugins/tables/handsontable/handsontable.full.js"></script>
-        <!-- /core JS files -->
+        <!--<script type="text/javascript" src="js/plugins/tables/handsontable/handsontable.min.js"></script>-->
+        <!-- /core JS files -->        
 
-        <!-- Theme JS files -->
-        <script type="text/javascript" src="js/stores_main_indexes.js"></script>
         <script type="text/javascript" src="js/core/app.js"></script>
-        <script type="text/javascript" src="js/lib/echarts.js"></script>
-        <script type="text/javascript" src="js/lib/echarts/pies_donuts.js"></script>
-        <script type="text/javascript" src="js/pages/hot.js"></script> 
-        <!-- /theme JS files -->
-
+        <script type="text/javascript" src="js/pages/hot.js"></script>  
+        <script type="text/javascript" src="js/categories_settings.js"></script>  
     </head>
     <body>
         <!-- Main navbar -->
@@ -59,12 +53,9 @@ and open the template in the editor.
 
         </div>
         <!-- /Main navbar -->
-
-        <!-- Page container -->
         <div class="page-container">
             <!-- Page content -->
             <div class="page-content">
-
                 <!-- Main sidebar -->
                 <div class="sidebar sidebar-main" >
                     <div class="sidebar-content">
@@ -152,121 +143,24 @@ and open the template in the editor.
                     <div class="page-header">
                         <div class="page-header-content">
                             <div class="page-title">
-                                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Магазины</span> - Основные показатели</h4>
+                                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Настройки</span> - Категории</h4>
                             </div>
                         </div>
                         <div class="breadcrumb-line">
 
                             <ul class="breadcrumb">
                                 <li><a href="index.html"><i class="icon-home2 position-left"></i> Главная</a></li>
-                                <li><a href="">Магазины</a></li> 
-                                <li href="" class="active">Основные показатели</li>
+                                <li><a href="">Настройки</a></li> 
+                                <li href="" class="active">Категории</li>
                             </ul>     
                         </div>                        
                     </div>
                     <!-- page header -->
-                    <!--Filters -->
-                    <div class="content">
-                        <div class="panel panel-flat">      
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label class="display-block text-semibold">Дата с </label>
-                                            <input type="date" class="form-control" placeholder="col-md-2" id="fromDate">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label class="display-block text-semibold"> по </label>
-                                            <input type="date" class="form-control" placeholder="col-md-2" id="toDate">
-                                        </div>
-                                    </div>
-                                    <div class="form-group" >
-                                        <label class="display-block text-semibold">Выберите </label> 
-                                        <div placeholder="col-md-2" class="abcData">
-
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox" checked="checked" name="abc" value="A">
-                                                A
-                                            </label>
-
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox" checked="checked" name="abc" value="B">
-                                                B
-                                            </label>
-                                            <label class="checkbox-inline">
-                                                <input type="checkbox" checked="checked" name="abc" value="C">
-                                                C
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <button id="getData"> Submit </button>
-                            </div>
-                        </div>                        
-                    </div>                                        
-                    <!--filters -->
-                    <!--indexes -->
-                    <div class="content">
-                        <div class="panel panel-flat">      
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-4 text-center">
-                                        <label class="display-block ">КОЛ-ВО ЧЕКОВ</label>
-                                        <label class="text-semibold text-grey-800 text-ultralarge" id="tickets"></label>
-                                    </div>
-                                    <div class="col-md-4 text-center ">
-                                        <label class="display-block ">ПРОДАЖИ</label>
-                                        <label class="text-semibold text-grey-800 text-ultralarge" id="sales"></label>
-                                    </div>
-                                    <div class="col-md-4 text-center">
-                                        <label class="display-block ">ВАЛОВАЯ ПРИБЫЛЬ</label>
-                                        <label class="text-semibold text-grey-800 text-ultralarge" id="grossprofit"></label>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>                        
-                    <!--indexes -->
-                    <!-- Content area -->
-                    <div class="content">
-                        <!-- Basic donut chart -->
-                        <div class="panel panel-flat">
-                            <div class="row">
-                                <div class="panel-heading">
-                                    <h5 class="panel-title">Основные показатели по магазинам</h5>
-                                    <div class="heading-elements">
-                                        <ul class="icons-list">
-                                            <li><a data-action="collapse"></a></li>
-                                            <li><a data-action="reload"></a></li>
-                                            <li><a data-action="close"></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="chart-container " id = "basic_donut_scroll">
-                                        <!--class="chart has-fixed-height has-minimum-width"-->
-                                        <div class="chart " >
-                                            <div class="col-md-4 has-fixed-height" id="basic_donut_tickets"></div>
-                                            <div class="col-md-4 has-fixed-height" id="basic_donut_sales"></div>
-                                            <div class="col-md-4 has-fixed-height" id="basic_donut_grossprofit"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- /basic donut chart -->
-                        </div>
-                    </div>
-
-                    <!-- Scrolling enabled -->
+                    <!-- Scrolling enabled stores table-->
                     <div class="content">
                         <div class="panel panel-flat">
                             <div class="panel-heading">
-                                <h5 class="panel-title" id="panel-title">Таблица</h5>
+                                <!--<h5 class="panel-title" id="panel-title"></h5>-->
                                 <div class="heading-elements">
                                     <ul class="icons-list">
                                         <li><a id="export_csv"><i class="icon-file-excel"></i> Export to .csv</a></li>
@@ -278,20 +172,31 @@ and open the template in the editor.
                             </div>
 
                             <div class="panel-body">
+                                <div class="form-group has-feedback has-feedback-left">
+                                    <input type="text" id="hot_search_callback_input" class="form-control" placeholder="Search">
+                                    <div class="form-control-feedback">
+                                        <i class="icon-search4 text-size-small"></i>
+                                    </div>
+                                </div>
+                                <p class="content-group"><span class="text-semibold" id="result-count">0</span> results found</p> 
                                 <p class="content-group"></p>
-
-                                <div class="hot-container has-scroll">
-                                    <div id="hot_table"></div>
+                                <div class="text-left" id="saveDiv"></div>
+                                <div class="hot-container has-scroll" id="storeContainer">
+                                    <div id="stores"></div>
                                 </div>
                             </div>
                         </div>
+                        <div class="text-right">
+                            <button id="save" onclick="save()"> Сохранить </button>
+                        </div>
                     </div>
-                    <!-- /scrolling enabled -->
+                    <!-- /scrolling enabled stores table-->    
                 </div>
-                <!-- content area -->
             </div>
-            <!-- page content -->
         </div>
-        <!-- page container -->
-    </body>
+    </div>
+</body>
 </html>
+
+
+

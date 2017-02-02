@@ -236,4 +236,48 @@ public class DataBaseManager {
             return false;
         } 
     }
+    public List<Organization> getCategoriesForSetting(){
+        
+        List<Organization> catList = new ArrayList<Organization>();
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement(Selects.SELECT_CATEGORIES_FOR_SETTINGS);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Organization organization = new Organization();
+                organization.setId(rs.getInt("id"));
+                organization.setDesc(rs.getString("descr"));
+                organization.setFloorSpace(rs.getFloat("floor_space"));
+                organization.setAbc(rs.getString("abc"));
+                organization.setIsPriceAuto(rs.getInt("is_price_auto"));
+                organization.setIsPriceRounding(rs.getInt("is_price_rounding"));
+                organization.setPriceChangeStep(rs.getFloat("price_change_step"));
+                organization.setPriceOptimGoal(rs.getInt("price_optim_goal"));
+                catList.add(organization);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            log.error(ex);
+        }
+        
+        return catList;
+    }
+    public boolean updateCategoriesForSettings(Organization organization) {
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement(Selects.UPDATE_CATEGORIES_FOR_SETTINGS);
+            stmt.setInt(1, organization.getIsPriceAuto());
+            stmt.setInt(2, organization.getIsPriceRounding());
+            stmt.setFloat(3, organization.getPriceChangeStep());
+            stmt.setInt(4, organization.getPriceOptimGoal());
+            stmt.setInt(5, organization.getId());
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(DataBaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            log.error(ex);
+            return false;
+        } 
+    }
 }

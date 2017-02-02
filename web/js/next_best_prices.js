@@ -6,15 +6,15 @@ $(function () {
 //item div not visible while store and  category are not checked
     $('#itemsDiv').hide();
 //
-//select dateMonth (six month)
+//select dateMonth (seven month)
     date = new Date();
-    month = date.getMonth() + 1;
+    month = date.getMonth() + 2;
     year = date.getFullYear();
     function checkMonth() {
         if (month < 10)
             month = "0" + month;
     }
-    for (var i = 1; i < 7; i++) {
+    for (var i = 1; i < 9; i++) {
         checkMonth();
         $('#date_month').append('<option value="' + year + month + '" name="' + year + "-" + month + '"+>' + year + "-" + month + '</option>');
         month = month - 1;
@@ -66,7 +66,7 @@ function getItems() {
         setContainerHeight(0, '#itemsContainer');
     } else {
         $.ajax({
-            url: getPath() + 'Eglitec/NextBestPricesServlet',
+            url: getPath() + 'eglitec/NextBestPricesServlet',
             type: 'POST',
             dataType: 'json',
             data: {
@@ -97,7 +97,7 @@ function getItems() {
 ////get Stores and Categories from server
 function getStoresCategories(dateMonth, abc) {
     $.ajax({
-        url: getPath() + 'Eglitec/NextBestPricesServlet',
+        url: getPath() + 'eglitec/NextBestPricesServlet',
         type: 'POST',
         dataType: 'json',
         data: {
@@ -220,7 +220,6 @@ function createStoresTable(jsonObject) {
                     }
                     Handsontable.NumericCell.renderer.apply(this, arguments);
                 },
-//                language: 'de'
             },
             {
                 data: 'salesNext',
@@ -233,7 +232,6 @@ function createStoresTable(jsonObject) {
                     }
                     Handsontable.NumericCell.renderer.apply(this, arguments);
                 },
-//                language: 'de'
             },
             {
                 data: 'gprofitNext',
@@ -246,7 +244,6 @@ function createStoresTable(jsonObject) {
                     }
                     Handsontable.NumericCell.renderer.apply(this, arguments);
                 },
-//                language: 'de'
             }
         ],
         afterSelection: function (row, col, row1, col1) {

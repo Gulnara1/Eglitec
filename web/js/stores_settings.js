@@ -10,7 +10,7 @@ $(function () {
 function getStores() {
 
     $.ajax({
-        url: getPath() + 'Eglitec/StoresSettings',
+        url: getPath() + 'eglitec/StoresSettings',
         type: 'POST',
         dataType: 'json',
         success: function (data) {
@@ -21,7 +21,7 @@ function getStores() {
 function createTable(jsonObject) {
     var container = document.getElementById('stores');
     var hot_data = [];
-//    var data = [{n: "Mercedes", isPriceAuto: 1, price: 32500, share: 0.64},
+//    var data = [
 //        {n: 1, id: 454, desc: "Mira", floorSpace: 155, abc: 'A', isPriceAuto: 1, isPriceRounding: 1, priceChangeStep: 0.2, priceOptimGoal: 1},
 //        {n: 2, id: 464, desc: "Pojar", floorSpace: 300, abc: 'B', isPriceAuto: 0, isPriceRounding: 1, priceChangeStep: 0.3, priceOptimGoal: 2},
 //        {n: 3, id: 474, desc: "Bravo", floorSpace: 250, abc: 'C', isPriceAuto: 1, isPriceRounding: 0, priceChangeStep: 0, priceOptimGoal: 2},
@@ -188,11 +188,11 @@ function createTable(jsonObject) {
                 priceOptimGoal: priceOptimGoal,
                 rowIndex: rowIndex,
                 colIndex: colIndex});
-            for (var item in updatingData) {
-                dataItem = updatingData[item];
-                cell = this.getCell(dataItem.rowIndex, dataItem.colIndex);
-                cell.style.background = '#ffd9b3';
-            }
+//            for (var item in updatingData) {
+//                dataItem = updatingData[item];
+//                cell = this.getCell(dataItem.rowIndex, dataItem.colIndex);
+//                cell.style.background = '#ffd9b3';
+//            }
 
         },
         afterInit: function () {
@@ -262,22 +262,56 @@ function createTable(jsonObject) {
     // Add event
     Handsontable.Dom.addEvent(hot_search_callback_input, 'keyup', function (event) {
         var queryResult;
-
         searchResultCount = 0;
+
+        handsontable.loadData(hot_data);
         queryResult = handsontable.search.query(this.value);
-        rows = getRowsFromObjects(queryResult);
-//        console.log(rows);
+        searchData = getSearchedRowsData(queryResult);
+        
+        if(searchResultCount == 0){
+            
+            handsontable.loadData(hot_data);
+        }else{
+            handsontable.loadData(searchData);
+        }
+
         resultCount.innerText = searchResultCount.toString();
         handsontable.render();
+
     });
 
-    function getRowsFromObjects(queryResult) {
-        var rows = [];
+    function getSearchedRowsData(queryResult) {
+        var rowObjects = [];
+        var rowIndexes = [];
         for (var i = 0; i < queryResult.length; i++) {
-            rows.push(queryResult[i].row);
+            rowI = queryResult[i].row;
+            if (!rowIndexes.includes(rowI)) {
+                rowIndexes.push(rowI);
+            }
+            ;
+        };
+
+
+        for (var i = 0; i < rowIndexes.length; i++) {
+
+            rowData = handsontable.getDataAtRow(rowIndexes[i]);
+            rowObjects.push({n: rowData[0],
+                id: rowData[1],
+                desc: rowData[2],
+                floorSpace: rowData[3],
+                abc: rowData[4],
+                isPriceAuto: rowData[5],
+                isPriceRounding: rowData[6],
+                priceChangeStep: rowData[7],
+                priceOptimGoal: rowData[9]
+            });
         }
-        return rows;
+        ;
+
+
+        return rowObjects;
     }
+    ;
 }
 ;
 
@@ -285,7 +319,7 @@ function save() {
 
     var jsonUpdatingData = JSON.stringify(updatingData);
     $.ajax({
-        url: getPath() + 'Eglitec/StoresSettings',
+        url: getPath() + 'eglitec/StoresSettings',
         type: 'POST',
         dataType: 'json',
         data: {jsonData: jsonUpdatingData

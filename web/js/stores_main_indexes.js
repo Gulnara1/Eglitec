@@ -157,7 +157,7 @@ function fillIndexes(jsonObject) {
 function getTSGOnPeriod(fromDate, toDate, abc) {
 
     $.ajax({
-        url: getPath() + 'Eglitec/StoresMainIndexesServlet',
+        url: getPath() + 'eglitec/StoresMainIndexesServlet',
         type: 'POST',
         dataType: 'json',
         data: {

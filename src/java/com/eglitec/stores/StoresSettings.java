@@ -52,13 +52,6 @@ public class StoresSettings extends HttpServlet {
                 StoreSettingsManager settingsManager = new StoreSettingsManager();
                 result = settingsManager.parseJsonAndUpdateData(jsonData, conn)+"";
 
-//                Organization organization = new Organization();
-//                organization.setIsPriceAuto(Integer.parseInt(request.getParameter("isPriceAuto")));
-//                organization.setIsPriceRounding(Integer.parseInt(request.getParameter("isPriceRounding")));
-//                organization.setPriceChangeStep(Float.parseFloat(request.getParameter("priceChangeStep")));
-//                organization.setPriceOptimGoal(Integer.parseInt(request.getParameter("priceOptimGoal")));
-//                organization.setId(Integer.parseInt(request.getParameter("id")));
-//                dbm.updateStoresForSettings(organization);
             } else {
 
                 List<Organization> storesList = dbm.getStoresForSettings();

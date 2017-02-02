@@ -12,6 +12,10 @@
         <servlet-name>StoresSettings</servlet-name>
         <servlet-class>com.eglitec.stores.StoresSettings</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CategoriesSettingsServlet</servlet-name>
+        <servlet-class>com.eglitec.stores.CategoriesSettingsServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>EglitecServlet</servlet-name>
         <url-pattern>/EglitecServlet</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>StoresSettings</servlet-name>
         <url-pattern>/StoresSettings</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CategoriesSettingsServlet</servlet-name>
+        <url-pattern>/CategoriesSettingsServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

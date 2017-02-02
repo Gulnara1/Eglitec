@@ -91,4 +91,18 @@ public class Selects {
             + "price_change_step = ?,\n"
             + "price_optim_goal = ?\n"
             + "where id = ?";
+    public static final String SELECT_CATEGORIES_FOR_SETTINGS = "select 	g.id fk_prd_pgr, \n"
+            + "    g.long_descr pgr_descr, \n"
+            + "    g.is_price_auto,\n"
+            + "    g.is_price_roundig,\n"
+            + "    g.price_change_step,\n"
+            + "    g.price_optim_goal\n"
+            + "from egl.egl_d_prd_gr g\n"
+            + "where g.id > 900000000";
+    public static final String UPDATE_CATEGORIES_FOR_SETTINGS = "UPDATE egl.egl_d_prd_gr \n"
+            + "SET is_price_auto = ?,\n"
+            + "    is_price_roundig = ?,\n"
+            + "    price_change_step = ?,\n"
+            + "    price_optim_goal = ?\n"
+            + "where id = ?";
 }
