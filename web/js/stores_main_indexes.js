@@ -28,7 +28,7 @@ $(function () {
     }
 
     //abc =
-    ////////
+    //////// Tickets, Grossprofit, Sales
     getTSGOnPeriod(fromDateVal, toDateVal, selectedABC);
 
 //for button
@@ -127,7 +127,7 @@ function createTable(jsonObject) {
         'Адрес',
         'Торговая пл.',
         'Kластер',
-        'Продажи',
+        'Выручка',
         'Прибыль',
         'Кол-во чеков'
     ];
@@ -149,8 +149,8 @@ function fillIndexes(jsonObject) {
         tickets = tickets + value.tickets;
     });
     $('#tickets').text(tickets);
-    $('#sales').text(sales);
-    $('#grossprofit').text(grossProfit);
+    $('#sales').text(sales/1000);
+    $('#grossprofit').text(grossProfit/1000);
 }
 
 ///////////////
