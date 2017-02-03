@@ -1,40 +1,32 @@
 
+
 $(function () {
 
+// Date
+    $('[name="format-date"]').formatter({
+        pattern: '{{99}}-{{99}}-{{9999}}'
+    });
 //default
 
     date = new Date();
     month = date.getMonth();
     year = date.getFullYear();
-    if (month < 10)
-        month = "0" + month;
-
-    $('#fromDate').val('2015' + "-" + '11' + "-01");
-    $('#toDate').val('2015' + "-" + '12' + "-01");
-//    $('#fromDate').val(year + "-" + month + "-01");
-//    $('#toDate').val(year + "-" + (month + 1) + "-01");
-///////////////////  get filtres value  
-    fromDateVal = ($("#fromDate").val()).replace(/-/g, '');
-    toDateVal = ($("#toDate").val()).replace(/-/g, '');
-
-    checkboxes = document.getElementsByName('abc');
-    var selectedABC = "";
-    for (var i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].checked) {
-            selectedABC = selectedABC + (checkboxes[i].value);
-        } else {
-            selectedABC = selectedABC + "X";
-        }
+    function checkMonth(month) {
+        if (month < 10)
+            month = "0" + month;
+        return month;
     }
+    $('#fromDate').val('01' + "-" + '11-' + "2015");
+    $('#toDate').val('01' + "-" + '12-' + "2015");
 
-    //abc =
-    //////// Tickets, Grossprofit, Sales
-    getTSGOnPeriod(fromDateVal, toDateVal, selectedABC);
+//    $('#fromDate').val('01'+ '-' + checkMonth(month) + '-' + year);
+//    $('#toDate').val('01' + "-" + checkMonth(month + 1) + '-' + year);
 
-//for button
-    $('#getData').click(function () {
-        fromDateVal = ($("#fromDate").val()).replace(/-/g, '');
-        toDateVal = ($("#toDate").val()).replace(/-/g, '');
+    function submit() {
+        ///////////////////  get filtres value  
+        fromDateVal = ($("#fromDate").val()).split("-").reverse().join("");
+        toDateVal = ($("#toDate").val()).split("-").reverse().join("");
+        
         var checkboxes = document.getElementsByName('abc');
         var selectedABC = "";
         for (var i = 0; i < checkboxes.length; i++) {
@@ -44,8 +36,23 @@ $(function () {
                 selectedABC = selectedABC + "X";
             }
         }
+        //////// Tickets, Grossprofit, Sales
         getTSGOnPeriod(fromDateVal, toDateVal, selectedABC);
+    }
+    submit();
+    $('#getData').click(function () {
+        submit();
     });
+
+//    $('#checkABC').click(function () {
+//        submit();
+//    });
+//    $('#fromDate').click(function () {
+//        submit();
+//    });
+//    $('#toDate').click(function () {
+//        submit();
+//    });
 });
 /////////
 function drowTicketsChart(jsonObject) {
@@ -149,13 +156,17 @@ function fillIndexes(jsonObject) {
         tickets = tickets + value.tickets;
     });
     $('#tickets').text(tickets.toLocaleString('ru-RU'));
-    $('#sales').text(Math.round(sales/1000).toLocaleString('ru-RU'));
-    $('#grossprofit').text(Math.round(grossProfit/1000).toLocaleString('ru-RU'));
+    $('#sales').text(Math.round(sales / 1000).toLocaleString('ru-RU'));
+    $('#grossprofit').text(Math.round(grossProfit / 1000).toLocaleString('ru-RU'));
 }
 
 ///////////////
 function getTSGOnPeriod(fromDate, toDate, abc) {
 
+    console.log(fromDate);
+    console.log(toDate);
+    console.log(abc);
+    
     $.ajax({
         url: getPath() + 'eglitec/StoresMainIndexesServlet',
         type: 'POST',
@@ -175,13 +186,24 @@ function getTSGOnPeriod(fromDate, toDate, abc) {
 
             });
             console.log(chartJson);
-            drowTicketsChart(chartJson);
-            drowSalesChart(chartJson);
-            drowGrossprofitChart(chartJson);
+            console.log(tableJson);
+            if (chartJson.length == 0) {
+                document.getElementById('basic_donut_tickets').innerHTML = "Нет данных";
+                document.getElementById('basic_donut_tickets').innerHTML = "";
+                document.getElementById('basic_donut_tickets').innerHTML = "";
+            } else {
+                drowTicketsChart(chartJson);
+                drowSalesChart(chartJson);
+                drowGrossprofitChart(chartJson);
+            }
 
             fillIndexes(chartJson);
 
-            createTable(tableJson);
+            if (tableJson.length == 0) {
+                document.getElementById('hot_table').innerHTML = "Нет данных";
+            } else {
+                createTable(tableJson);
+            }
         }
     });
 }

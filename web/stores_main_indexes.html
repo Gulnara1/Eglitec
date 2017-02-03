@@ -28,11 +28,13 @@ and open the template in the editor.
         <script type="text/javascript" src="js/core/libraries/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/loaders/blockui.min.js"></script>
         <script type="text/javascript" src="js/plugins/tables/handsontable/handsontable.full.js"></script>
-        <script type="text/javascript" src="js/lib/numeral.js"></script>
         <script type="text/javascript" src="js/plugins/tables/handsontable/languages/languages.min.js"></script>
+
         <!-- /core JS files -->
 
         <!-- Theme JS files -->
+        <script type="text/javascript" src="js/core/libraries/jasny_bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/plugins/forms/inputs/formatter.min.js"></script>
         <script type="text/javascript" src="js/stores_main_indexes.js"></script>
         <script type="text/javascript" src="js/core/app.js"></script>
         <script type="text/javascript" src="js/lib/echarts.js"></script>
@@ -175,18 +177,19 @@ and open the template in the editor.
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label class="display-block text-semibold">Дата с </label>
-                                            <input type="date" class="form-control" placeholder="col-md-2" id="fromDate">
+                                            <!--<input type="date" class="form-control" placeholder="col-md-2" id="fromDate">-->
+                                            <input type="text" class="form-control" data-mask="99-99-9999" placeholder="Введите дату" id="fromDate">
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label class="display-block text-semibold"> по </label>
-                                            <input type="date" class="form-control" placeholder="col-md-2" id="toDate">
+                                            <input type="text" class="form-control" data-mask="99-99-9999" placeholder="Введите дату" id="toDate">
                                         </div>
                                     </div>
                                     <div class="form-group" >
                                         <label class="display-block text-semibold">Классификация </label> 
-                                        <div placeholder="col-md-2" class="abcData">
+                                        <div placeholder="col-md-2" class="abcData" id="checkABC">
 
                                             <label class="checkbox-inline">
                                                 <input type="checkbox" checked="checked" name="abc" value="A">
@@ -205,7 +208,7 @@ and open the template in the editor.
                                     </div>
                                 </div>
 
-                                <!--<button id="getData"> Submit </button>-->
+                                <button id="getData"> Получить данные </button>
                             </div>
                         </div>                        
                     </div>                                        
