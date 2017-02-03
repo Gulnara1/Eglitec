@@ -58,7 +58,7 @@ public class DataBaseManager {
         while (rs.next()) {
             Organization organization = new Organization();
 
-            organization.setClusterId(rs.getInt("cluster_id"));
+            organization.setAbc(rs.getString("abc"));
             organization.setFloorSpace(rs.getInt("floor_space"));
             organization.setSales(rs.getInt("sales"));
             organization.setGrossProfit(rs.getInt("gross_profit"));

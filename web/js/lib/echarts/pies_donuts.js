@@ -113,7 +113,7 @@ function LoadPiesDonutChart(data, div, title)  {
                 // Add series
                 series: [
                     {
-                        name: 'Stores',
+                        name: '',
                         type: 'pie',
                         radius: ['50%', '70%'],
                         center: ['50%', '57.5%'],

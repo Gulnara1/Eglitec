@@ -13,7 +13,7 @@ public class Selects {
 
     public static final String SELECT_ALL_ABC = "select distinct o.abc from egl.egl_d_org o where o.abc is not null ORDER BY o.abc;";
     public static final String SELECT_ALL_CLASTERS = "select distinct o.cluster_id from egl.egl_d_org o where o.cluster_id is not null ORDER BY o.cluster_id;";
-    public static final String SELECT_TICKETS_SALES_GROSSPROFIT_FOR_CHART = "select s.cluster_id,\n"
+    public static final String SELECT_TICKETS_SALES_GROSSPROFIT_FOR_CHART = "select s.abc,\n"
             + "	sum(s.floor_space) floor_space,\n"
             + "	sum(a.sales) sales, \n"
             + "	sum(a.sales-a.cogs-discount) gross_profit,\n"
@@ -22,8 +22,8 @@ public class Selects {
             + "  join egl.egl_d_org s on s.id = a.fk_org\n"
             + "where a.time_id between ? and ?\n"
             + "and (s.abc = ? or s.abc = ? or s.abc = ?)"
-            + "group by s.cluster_id\n"
-            + "order by cluster_id";
+            + "group by s.abc\n"
+            + "order by s.abc";
     public static final String SELECT_TICKETS_SALES_GROSSPROFIT_FOR_TABLE = "select s.id fk_org, s.descr, s.floor_space, s.cluster_id,\n"
             + "	sum(s.floor_space) floor_space_sum,\n"
             + "	sum(a.sales) sales, \n"

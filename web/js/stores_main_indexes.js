@@ -55,12 +55,12 @@ function drowTicketsChart(jsonObject) {
 
     jsonObject.forEach(function (value) {
         data.push({value: value.tickets,
-            name: value.clusterId
+            name: value.abc
         });
     });
     title = {
         text: 'Колличество чеков',
-        subtext: 'Анализ по кластерам',
+        subtext: 'Анализ по ABC',
         x: 'center'
     };
 
@@ -73,12 +73,12 @@ function drowSalesChart(jsonObject) {
     var data = [];
     jsonObject.forEach(function (value) {
         data.push({value: value.sales,
-            name: value.clusterId
+            name: value.abc
         });
     });
     title = {
         text: 'Продажи',
-        subtext: 'Анализ по кластерам',
+        subtext: 'Анализ по ABC',
         x: 'center'
     };
 
@@ -92,12 +92,12 @@ function drowGrossprofitChart(jsonObject) {
     var data = [];
     jsonObject.forEach(function (value) {
         data.push({value: value.grossProfit,
-            name: value.clusterId
+            name: value.abc
         });
     });
     title = {
         text: 'Прибыльность',
-        subtext: 'Анализ по кластерам',
+        subtext: 'Анализ по ABC',
         x: 'center'
     };
 
@@ -148,9 +148,9 @@ function fillIndexes(jsonObject) {
         grossProfit = grossProfit + value.grossProfit;
         tickets = tickets + value.tickets;
     });
-    $('#tickets').text(tickets);
-    $('#sales').text(sales/1000);
-    $('#grossprofit').text(grossProfit/1000);
+    $('#tickets').text(tickets.toLocaleString('ru-RU'));
+    $('#sales').text(Math.round(sales/1000).toLocaleString('ru-RU'));
+    $('#grossprofit').text(Math.round(grossProfit/1000).toLocaleString('ru-RU'));
 }
 
 ///////////////
@@ -174,6 +174,7 @@ function getTSGOnPeriod(fromDate, toDate, abc) {
                 tableJson = JSON.parse(data.tableJson);
 
             });
+            console.log(chartJson);
             drowTicketsChart(chartJson);
             drowSalesChart(chartJson);
             drowGrossprofitChart(chartJson);
