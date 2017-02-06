@@ -1,7 +1,7 @@
 
-function createHandsontable(hot_data, container, colHeaders) {
+function createHandsontable(hot_data, container, colHeaders, columns) {
 // Define element
-
+    console.log(columns);
     function negativeValueRenderer(instance, td, row, col, prop, value, cellProperties) {
         Handsontable.renderers.TextRenderer.apply(this, arguments);
 
@@ -30,6 +30,7 @@ function createHandsontable(hot_data, container, colHeaders) {
         readOnly: true,
         currentRowClassName: 'currentRow',
         outsideClickDeselects: false,
+        columns: columns,
         afterInit: function () {
             console.log("Handsontable initialized!");
         },
@@ -50,22 +51,6 @@ function createHandsontable(hot_data, container, colHeaders) {
             return cellProperties;
         }
     });
-}
-//create Stores handsontable
-
-function createStoresTable(hot_stores_data) {
-
-    var container = document.getElementById('hot_stores_table');
-
-
-    var handsontable = new Handsontable(container, {
-        data: hot_stores_data,
-        colHeaders: true,
-        stretchH: 'all'
-    });
-
-    console.log(handsontable);
-    return handsontable;
 }
 
 //export csv

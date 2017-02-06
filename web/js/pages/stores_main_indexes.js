@@ -26,7 +26,7 @@ $(function () {
         ///////////////////  get filtres value  
         fromDateVal = ($("#fromDate").val()).split("-").reverse().join("");
         toDateVal = ($("#toDate").val()).split("-").reverse().join("");
-        
+
         var checkboxes = document.getElementsByName('abc');
         var selectedABC = "";
         for (var i = 0; i < checkboxes.length; i++) {
@@ -41,6 +41,7 @@ $(function () {
     }
     submit();
     $('#getData').click(function () {
+
         submit();
     });
 
@@ -115,6 +116,7 @@ function createTable(jsonObject) {
     container = document.getElementById('hot_table');
     hot_data = [];
     colHeaders = [];
+    columns = [];
     n = 1;
     jsonObject.forEach(function (value) {
         hot_data.push({n: n,
@@ -124,7 +126,9 @@ function createTable(jsonObject) {
             clusteId: value.clusterId,
             sales: value.sales,
             grossProfit: value.grossProfit,
-            tickets: value.tickets
+            tickets: value.tickets,
+            salesSqm: value.salesSqm,
+            penetration: value.penetration
         });
         n++;
     });
@@ -136,9 +140,74 @@ function createTable(jsonObject) {
         'Kластер',
         'Выручка',
         'Прибыль',
-        'Кол-во чеков'
+        'Кол-во чеков',
+        'Выручка на кв.м.',
+        'Пенетрация'
     ];
-    handsontable = createHandsontable(hot_data, container, colHeaders);
+    columns = [
+        {
+            data: 'n',
+            readOnly: true,
+        },
+        {
+            data: 'id',
+            readOnly: true,
+        },
+        {
+            data: 'desc',
+            readOnly: true,
+        },
+        {
+            data: 'floorSpace',
+            readOnly: true,
+            format: '0,0[.]00 ',
+            language: 'ru-RU'
+        },
+        {
+            data: 'clusteId',
+            readOnly: true,
+        },
+        {
+            data: 'sales',
+            type: 'numeric',
+            format: '0,0[.]00 ',
+            language: 'ru-RU'
+        },
+        {
+            data: 'grossProfit',
+            type: 'numeric',
+            format: '0,0[.]00 ',
+            language: 'ru-RU'
+
+        },
+        {
+            data: 'tickets',
+            type: 'numeric',
+            format: '0.0[0000]',
+            language: 'ru-RU'
+//            renderer: function (instance, td, row, col, prop, value, cellProperties) {
+//                td.style.color = '#000000';
+//                if (!value || value === 0) {
+//                    td.style.background = '#DCDCDC';
+//                }
+//                Handsontable.NumericCell.renderer.apply(this, arguments);
+//            }
+        },
+        {
+            data: 'salesSqm',
+            type: 'numeric',
+            format: '0,0[.]00 ',
+            language: 'ru-RU'
+        },
+        {
+            data: 'penetration',
+            type: 'numeric',
+            format: '0,0[.]00 ',
+            language: 'ru-RU'
+
+        }
+    ];
+    handsontable = createHandsontable(hot_data, container, colHeaders, columns);
 
     $("#export_csv").on('click', function () {
         hrlatorCSV(colHeaders, hot_data);//handsontable.js
@@ -163,10 +232,10 @@ function fillIndexes(jsonObject) {
 ///////////////
 function getTSGOnPeriod(fromDate, toDate, abc) {
 
-    console.log(fromDate);
-    console.log(toDate);
-    console.log(abc);
-    
+//    console.log(fromDate);
+//    console.log(toDate);
+//    console.log(abc);
+
     $.ajax({
         url: getPath() + 'eglitec/StoresMainIndexesServlet',
         type: 'POST',
@@ -185,27 +254,27 @@ function getTSGOnPeriod(fromDate, toDate, abc) {
                 tableJson = JSON.parse(data.tableJson);
 
             });
-            console.log(chartJson);
-            console.log(tableJson);
             if (chartJson.length == 0) {
-                document.getElementById('basic_donut_tickets').innerHTML = "Нет данных";
-                document.getElementById('basic_donut_tickets').innerHTML = "";
-                document.getElementById('basic_donut_tickets').innerHTML = "";
+                loadMessage('basic_donut_tickets', "Нет данных");
+                loadMessage('basic_donut_sales', " ");
+                loadMessage('basic_donut_grossprofit', " ");
             } else {
                 drowTicketsChart(chartJson);
                 drowSalesChart(chartJson);
                 drowGrossprofitChart(chartJson);
             }
-
             fillIndexes(chartJson);
-
             if (tableJson.length == 0) {
-                document.getElementById('hot_table').innerHTML = "Нет данных";
+                loadMessage('hot_table', "Нет данных");
             } else {
                 createTable(tableJson);
             }
         }
     });
+}
+
+function loadMessage(divName, text) {
+    document.getElementById(divName).innerHTML = text;
 }
 //////////////////
 

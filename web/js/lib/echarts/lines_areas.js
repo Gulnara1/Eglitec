@@ -1,470 +1,686 @@
-//
-//
-$(function () {
+/* ------------------------------------------------------------------------------
+ *
+ *  # Echarts - lines and areas
+ *
+ *  Lines and areas chart configurations
+ *
+ *  Version: 1.0
+ *  Latest update: August 1, 2015
+ *
+ * ---------------------------------------------------------------------------- */
 
-    // var objectsList = [];
-    //var series = [];
-    require.config({
-        paths: {
-            echarts: 'js/pages/handsontable.js'
-        }
-    });
+$(function() {
 
-    var handsontable;
-    // 1 month zoom
-    $('#drowLineChartM').click(function ()
-    {
-        orgName = $("#orgList option:selected").attr('name');
-        org = $("#orgList").val();
-        var toDate = ($("#curDate").val()).replace(/-/g, '');
-        var fromDate = toDate - 100;
-
-        $("#panel-title").text(orgName + ' ( c ' + formatDate(fromDate) + ' по ' + formatDate(toDate) + ')');
-
-        $.ajax({
-            url: 'http://192.168.11.31:8080/EglitecWeb/EglitecServlet',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                fromDate: fromDate,
-                toDate: toDate,
-                org: org},
-            success: function (data) {
-
-                var timeIds_X = [];
-                var tcks_Y = [];
-                var series = [];
-                var hot_data = [];
-                var n = 1;
-                $.each(data, function (key, value) {
-                    
-                    timeIdVal = value.timeId.toString();
-                    //data for table
-                    hot_data.push({n: n,
-                        date: formatDate(timeIdVal),
-                        week_day: getDayOfWeek(value.dayOfWeek),
-                        tck_qty: value.ticketsQty});
-                    //data for chart                    
-                    timeIds_X.push(timeIdVal.substring(6, 8) + "/" + timeIdVal.substring(4, 6));
-                    tcks_Y.push(value.ticketsQty);
-                    n++;
-                });
-                lineObject = new Object();
-                series.push({
-                    name: orgName,
-                    type: 'line',
-                    data: tcks_Y,
-                    markLine: {
-                        data: [{
-                                type: 'average',
-                                name: 'Average'
-                            }]
-                    }});
-                lineObject.series = series;
-                lineObject.color = getRandomColor();
-                lineObject.days = timeIds_X;
-                lineObject.name = orgName;
-                //objectsList.push(lineObject);
-
-                LoadChart(lineObject);
-                handsontable = createHandsontable(hot_data);//handsontable.js
-            }
-        });
-    });
-
-    /////////////////////////
-    $("#export_csv").on('click', function () {
-//        rowRenderer.setHighlightedRow($(".highlightRow").index(this));
-
-        var header = handsontable.getColHeader();
-        var data = handsontable.getData();
-
-        hrlatorCSV(header, data);//handsontable.js
-    });
-///////////////////////
-
-
-    // 3 month zoom
-    $('#drowLineChartQ').click(function ()
-    {
-        orgName = $("#orgList option:selected").attr('name');
-        org = $("#orgList").val();
-
-        var toDate = ($("#curDate").val()).replace(/-/g, '');
-        var fromDate = toDate - 300;
-
-        $("#panel-title").text(orgName + ' ( c ' + formatDate(fromDate) + ' по ' + formatDate(toDate) + ')');
-
-        $.ajax({
-            url: 'http://192.168.11.31:8080/EglitecWeb/EglitecServlet',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                fromDate: fromDate,
-                toDate: toDate,
-                org: org},
-            success: function (data) {
-
-                var timeIds_X = [];
-                var tcks_Y = [];
-                var series = [];
-                var hot_data = [];
-                var n = 1;
-                $.each(data, function (key, value) {
-                    
-                    timeIdVal = value.timeId.toString();
-                    //data for table
-                    hot_data.push({n: n,
-                        date: formatDate(timeIdVal),
-                        week_day: getDayOfWeek(value.dayOfWeek),
-                        tck_qty: value.ticketsQty});
-                    //data for chart                    
-                    timeIds_X.push(timeIdVal.substring(6, 8) + "/" + timeIdVal.substring(4, 6));
-                    tcks_Y.push(value.ticketsQty);
-                    n++;
-                });
-                lineObject = new Object();
-                series.push({
-                    name: orgName,
-                    type: 'line',
-                    data: tcks_Y,
-                    markLine: {
-                        data: [{
-                                type: 'average',
-                                name: 'Average'
-                            }]
-                    }});
-                lineObject.series = series;
-                lineObject.color = getRandomColor();
-                lineObject.days = timeIds_X;
-                lineObject.name = orgName;
-                //objectsList.push(lineObject);
-
-                LoadChart(lineObject);
-                handsontable = createHandsontable(hot_data);
-            }
-        });
-    });
-
-    // 6 month zoom
-
-    $('#drowLineChartPY').click(function ()
-    {
-        orgName = $("#orgList option:selected").attr('name');
-        org = $("#orgList").val();
-
-        var toDate = ($("#curDate").val()).replace(/-/g, '');
-        var fromDate = toDate - 600;
-
-        $("#panel-title").text(orgName + ' ( c ' + formatDate(fromDate) + ' по ' + formatDate(toDate) + ')');
-
-        $.ajax({
-            url: 'http://192.168.11.31:8080/EglitecWeb/EglitecServlet',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                fromDate: fromDate,
-                toDate: toDate,
-                org: org},
-            success: function (data) {
-
-                var timeIds_X = [];
-                var tcks_Y = [];
-                var series = [];
-                var hot_data = [];
-                var n = 1;
-                $.each(data, function (key, value) {
-                    
-                    timeIdVal = value.timeId.toString();
-                    //data for table
-                    hot_data.push({n: n,
-                        date: formatDate(timeIdVal),
-                        week_day: getDayOfWeek(value.dayOfWeek),
-                        tck_qty: value.ticketsQty});
-                    //data for chart                    
-                    timeIds_X.push(timeIdVal.substring(6, 8) + "/" + timeIdVal.substring(4, 6));
-                    tcks_Y.push(value.ticketsQty);
-                    n++;
-                });
-                lineObject = new Object();
-                series.push({
-                    name: orgName,
-                    type: 'line',
-                    data: tcks_Y,
-                    markLine: {
-                        data: [{
-                                type: 'average',
-                                name: 'Average'
-                            }]
-                    }});
-                lineObject.series = series;
-                lineObject.color = getRandomColor();
-                lineObject.days = timeIds_X;
-                lineObject.name = orgName;
-                //objectsList.push(lineObject);
-
-                LoadChart(lineObject);
-                handsontable = createHandsontable(hot_data);
-            }
-        });
-    });
-
-    // YTD zoom
-
-    $('#drowLineChartYTD').click(function ()
-    {
-        orgName = $("#orgList option:selected").attr('name');
-        org = $("#orgList").val();
-
-        var toDate = ($("#curDate").val()).replace(/-/g, '');
-        var fromDate = toDate.substring(0, 4) + '0101';
-
-        $("#panel-title").text(orgName + ' ( c ' + formatDate(fromDate) + ' по ' + formatDate(toDate) + ')');
-
-        $.ajax({
-            url: 'http://192.168.11.31:8080/EglitecWeb/EglitecServlet',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                fromDate: fromDate,
-                toDate: toDate,
-                org: org},
-            success: function (data) {
-
-                var timeIds_X = [];
-                var tcks_Y = [];
-                var series = [];
-                var hot_data = [];
-                var n = 1;
-                $.each(data, function (key, value) {                    
-                    timeIdVal = value.timeId.toString();
-                    //data for table
-                    hot_data.push({n: n,
-                        date: formatDate(timeIdVal),
-                        week_day: getDayOfWeek(value.dayOfWeek),
-                        tck_qty: value.ticketsQty});
-                    //data for chart                    
-                    timeIds_X.push(timeIdVal.substring(6, 8) + "/" + timeIdVal.substring(4, 6));
-                    tcks_Y.push(value.ticketsQty);
-                    n++;
-                });
-                lineObject = new Object();
-                series.push({
-                    name: orgName,
-                    type: 'line',
-                    data: tcks_Y,
-                    markLine: {
-                        data: [{
-                                type: 'average',
-                                name: 'Average'
-                            }]
-                    }});
-                lineObject.series = series;
-                lineObject.color = getRandomColor();
-                lineObject.days = timeIds_X;
-                lineObject.name = orgName;
-                //objectsList.push(lineObject);
-
-                LoadChart(lineObject);
-                handsontable = createHandsontable(hot_data);
-            }
-        });
-    });
-
-    // 1 year zoom
-
-    $('#drowLineChartY').click(function ()
-    {
-        orgName = $("#orgList option:selected").attr('name');
-        org = $("#orgList").val();
-
-        var toDate = ($("#curDate").val()).replace(/-/g, '');
-        var fromDate = toDate - 10000;
-
-        $("#panel-title").text(orgName + ' ( c ' + formatDate(fromDate) + ' по ' + formatDate(toDate) + ')');
-
-        $.ajax({
-            url: 'http://192.168.11.31:8080/EglitecWeb/EglitecServlet',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                fromDate: fromDate,
-                toDate: toDate,
-                org: org},
-            success: function (data) {
-
-                var timeIds_X = [];
-                var tcks_Y = [];
-                var series = [];
-                var hot_data = [];
-                var n = 1;
-                $.each(data, function (key, value) {                    
-                    timeIdVal = value.timeId.toString();
-                    //data for table
-                    hot_data.push({n: n,
-                        date: formatDate(timeIdVal),
-                        week_day: getDayOfWeek(value.dayOfWeek),
-                        tck_qty: value.ticketsQty});
-                    //data for chart                    
-                    timeIds_X.push(timeIdVal.substring(6, 8) + "/" + timeIdVal.substring(4, 6));
-                    tcks_Y.push(value.ticketsQty);
-                    n++;
-                });
-                lineObject = new Object();
-                series.push({
-                    name: orgName,
-                    type: 'line',
-                    data: tcks_Y,
-                    markLine: {
-                        data: [{
-                                type: 'average',
-                                name: 'Average'
-                            }]
-                    }});
-                lineObject.series = series;
-                lineObject.color = getRandomColor();
-                lineObject.days = timeIds_X;
-                lineObject.name = orgName;
-                //objectsList.push(lineObject);
-
-                LoadChart(lineObject);
-                handsontable = createHandsontable(hot_data);
-            }
-        });
-    });
-
-});
-
-function LoadChart(orgObject) {
 
     // Set paths
     // ------------------------------
+
     require.config({
         paths: {
-            echarts: 'js/lib/'
+            echarts: 'libs'
         }
     });
+
+
     // Configuration
     // ------------------------------
 
     require(
-            [
-                'echarts',
-                'echarts/theme/limitless',
-                'echarts/chart/bar',
-                'echarts/chart/line',
-            ],
+        [
+            'echarts',
+            'echarts/theme/limitless',
+            'echarts/chart/bar',
+            'echarts/chart/line'
+        ],
+
+
+        // Charts setup
+        function (ec, limitless) {
+
+
+            // Initialize charts
+            // ------------------------------
+
+            var basic_lines = ec.init(document.getElementById('basic_lines'), limitless);
+            var stacked_lines = ec.init(document.getElementById('stacked_lines'), limitless);
+            var inverted_axes = ec.init(document.getElementById('inverted_axes'), limitless);
+            var line_point = ec.init(document.getElementById('line_point'), limitless);
+            var basic_area = ec.init(document.getElementById('basic_area'), limitless);
+            var stacked_area = ec.init(document.getElementById('stacked_area'), limitless);
+            var reversed_value = ec.init(document.getElementById('reversed_value'), limitless);
+
+
+
             // Charts setup
-                    function (ec, limitless) {
+            // ------------------------------
 
+            //
+            // Basic lines options
+            //
 
-                        // Initialize charts
-                        // ------------------------------
+            basic_lines_options = {
 
-                        var basic_lines = ec.init(document.getElementById('basic_lines'), limitless);
-                        var names = [];
-                        var colors = [];
-                        var days = [];
-                        var series = [];
+                // Setup grid
+                grid: {
+                    x: 40,
+                    x2: 40,
+                    y: 35,
+                    y2: 25
+                },
 
+                // Add tooltip
+                tooltip: {
+                    trigger: 'axis'
+                },
 
-                        // Charts setup
-                        // ------------------------------
-                        //
-                        // Basic lines options
-                        //
-                        // $.each(objectsList, function (key, objectsList) {
+                // Add legend
+                legend: {
+                    data: ['Maximum', 'Minimum']
+                },
 
-                        names.push(orgObject.name);
-                        colors.push(orgObject.color);
-                        days = orgObject.days;
-                        series = orgObject.series;
+                // Add custom colors
+                color: ['#EF5350', '#66BB6A'],
 
-                        basic_lines_options = {
-                            // Setup grid
-                            grid: {
-                                x: 40,
-                                x2: 40,
-                                y: 35,
-                                y2: 25
-                            },
-                            // Add tooltip
-                            tooltip: {
-                                trigger: 'axis'
-                            },
-                            // Add legend
-                            legend: {
-                                data: names
-                            },
-                            // Add custom colors
-                            color: colors,
-                            // Enable drag recalculate
-                            calculable: true,
-                            // Horizontal axis
-                            xAxis: [{
-                                    type: 'category',
-                                    boundaryGap: false,
-                                    data: days
-                                }],
-                            // Vertical axis
-                            yAxis: [{
-                                    type: 'value',
-                                    axisLabel: {
-                                        formatter: '{value}'
-                                    }
-                                }],
-                            // Add series
-                            series
-                        };
-                        // });
+                // Enable drag recalculate
+                calculable: true,
 
-                        // Apply options
-                        // ------------------------------
-                        basic_lines.setOption(basic_lines_options);
-                        // Resize charts
-                        // ------------------------------
+                // Horizontal axis
+                xAxis: [{
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                }],
 
-                        window.onresize = function () {
-                            setTimeout(function () {
-                                basic_lines.resize();
-                            }, 200);
+                // Vertical axis
+                yAxis: [{
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value} °C'
+                    }
+                }],
+
+                // Add series
+                series: [
+                    {
+                        name: 'Maximum',
+                        type: 'line',
+                        data: [11, 11, 15, 13, 12, 13, 10],
+                        markLine: {
+                            data: [{
+                                type: 'average',
+                                name: 'Average'
+                            }]
+                        }
+                    },
+                    {
+                        name: 'Minimum',
+                        type: 'line',
+                        data: [1, -2, 2, 5, 3, 2, 0],
+                        markLine: {
+                            data: [{
+                                type: 'average',
+                                name: 'Average'
+                            }]
                         }
                     }
-            );
+                ]
+            };
+
+
+            //
+            // Stacked lines options
+            //
+
+            stacked_lines_options = {
+
+                // Setup grid
+                grid: {
+                    x: 40,
+                    x2: 20,
+                    y: 35,
+                    y2: 25
+                },
+
+                // Add tooltip
+                tooltip: {
+                    trigger: 'axis'
+                },
+
+                // Add legend
+                legend: {
+                    data: ['Internet Explorer', 'Opera', 'Safari', 'Firefox', 'Chrome']
+                },
+
+                // Enable drag recalculate
+                calculable: true,
+
+                // Hirozontal axis
+                xAxis: [{
+                    type: 'category',
+                    boundaryGap: false,
+                    data: [
+                        'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+                    ]
+                }],
+
+                // Vertical axis
+                yAxis: [{
+                    type: 'value'
+                }],
+
+                // Add series
+                series: [
+                    {
+                        name: 'Internet Explorer',
+                        type: 'line',
+                        stack: 'Total',
+                        data: [120, 132, 101, 134, 90, 230, 210]
+                    },
+                    {
+                        name: 'Opera',
+                        type: 'line',
+                        stack: 'Total',
+                        data: [220, 182, 191, 234, 290, 330, 310]
+                    },
+                    {
+                        name: 'Safari',
+                        type: 'line',
+                        stack: 'Total',
+                        data: [150, 232, 201, 154, 190, 330, 410]
+                    },
+                    {
+                        name: 'Firefox',
+                        type: 'line',
+                        stack: 'Total',
+                        data: [320, 332, 301, 334, 390, 330, 320]
+                    },
+                    {
+                        name: 'Chrome',
+                        type: 'line',
+                        stack: 'Total',
+                        data: [820, 932, 901, 934, 1290, 1330, 1320]
+                    }
+                ]
+            };
+
+
+            //
+            // Inverted axes options
+            //
+
+            inverted_axes_options = {
+
+                // Setup grid
+                grid: {
+                    x: 40,
+                    x2: 20,
+                    y: 35,
+                    y2: 25
+                },
+
+                // Add legend
+                legend: {
+                    data: ['Altitude(km) and temperature(°C)']
+                },
+
+
+                // Enable drag recalculate
+                calculable: true,
+
+                // Add tooltip
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: 'Temperature: <br/>{b}km: {c}°C'
+                },
+
+                // Horizontal axis
+                xAxis: [{
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value} °C'
+                    }
+                }],
+
+                // Vertical axis
+                yAxis: [{
+                    type: 'category',
+                    axisLine: {
+                        onZero: false
+                    },
+                    axisLabel: {
+                        formatter: '{value} km'
+                    },
+                    boundaryGap: false,
+                    data: [
+                        0, 10, 20, 30, 40, 50, 60, 70, 80
+                    ]
+                }],
+
+                // Add series
+                series: [
+                    {
+                        name: 'Altitude(km) and temperature(°C)',
+                        type: 'line',
+                        smooth: true,
+                        itemStyle: {
+                            normal: {
+                                lineStyle: {
+                                    shadowColor: 'rgba(0,0,0,0.4)'
+                                }
+                            }
+                        },
+                        data: [
+                            15, -50, -56.5, -46.5, -22.1, -2.5, -27.7, -55.7, -76.5
+                        ]
+                    }
+                ]
+            };
+
+
+            //
+            // Line and point options
+            //
+
+            line_point_options = {
+
+                // Setup grid
+                grid: {
+                    x: 35,
+                    x2: 35,
+                    y: 60,
+                    y2: 25
+                },
+
+                // Add tooltip
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        show: true,
+                        type: 'cross',
+                        lineStyle: {
+                            type: 'dashed',
+                            width: 1
+                        }
+                    },
+                    formatter: function (params) {
+                        return params.seriesName + ': [ '
+                        + params.value[0] + ', ' 
+                        + params.value[1] + ' ]';
+                    }
+                },
+
+                // Add legend
+                legend: {
+                    x: 'left',
+                    data: ['Data set 1', 'Data set 2']
+                },
+
+                // Display toolbox
+                toolbox: {
+                    show: true,
+                    feature: {
+                        mark: {
+                            show: true,
+                            title: {
+                                mark: 'Markline switch',
+                                markUndo: 'Undo markline',
+                                markClear: 'Clear markline'
+                            }
+                        },
+                        dataZoom: {
+                            show: true,
+                            title: {
+                                dataZoom: 'Data zoom',
+                                dataZoomReset: 'Reset zoom'
+                            }
+                        },
+                        dataView: {
+                            show: true,
+                            readOnly: false,
+                            title: 'View data',
+                            lang: ['View chart data', 'Close', 'Update']
+                        },
+                        magicType: {
+                            show: true,
+                            title: {
+                                line: 'Switch to line chart',
+                                bar: 'Switch to bar chart',
+                            },
+                            type: ['line', 'bar']
+                        },
+                        restore: {
+                            show: true,
+                            title: 'Restore'
+                        },
+                        saveAsImage: {
+                            show: true,
+                            title: 'Same as image',
+                            lang: ['Save']
+                        }
+                    }
+                },
+
+                // Enable drag recalculate
+                calculable: true,
+
+                // Horizontal axis
+                xAxis: [{
+                type: 'value'
+                }],
+
+                // Vertical axis
+                yAxis: [
+                    {
+                        type: 'value',
+                        axisLine: {
+                            lineStyle: {
+                                color: '#dc143c'
+                            }
+                        }
+                    }
+                ],
+
+                // Add series
+                series: [
+                    {
+                        name: 'Data set 1',
+                        type: 'line',
+                        data: [
+                            [1.5, 10], [5, 7], [8, 8], [12, 6], [11, 12], [16, 9], [14, 6], [17, 4], [19, 9]
+                        ],
+                        markPoint: {
+                            data: [
+
+                                // Vertical
+                                {type: 'max', name: 'Maximum',symbol: 'emptyCircle', itemStyle: {normal: {color: '#EF5350',label: {position: 'top'}}}},
+                                {type: 'min', name: 'Minimum',symbol: 'emptyCircle', itemStyle: {normal: {color: '#EF5350',label: {position: 'bottom'}}}},
+
+                                // Horizontal
+                                {type: 'max', name: 'Maximum', valueIndex: 0, symbol: 'emptyCircle', itemStyle: {normal: {color: '#42A5F5',label: {position: 'right'}}}},
+                                {type: 'min', name: 'Minimum', valueIndex: 0, symbol: 'emptyCircle', itemStyle: {normal: {color: '#42A5F5',label: {position: 'left'}}}}
+                            ]
+                        },
+                        markLine: {
+                            data: [
+
+                                // Vertical
+                                {type: 'max', name: 'Maximum', itemStyle: {normal: {color: '#EF5350'}}},
+                                {type: 'min', name: 'Minimum', itemStyle: {normal: {color: '#EF5350'}}},
+                                {type: 'average', name: 'Average', itemStyle: {normal: {color: '#EF5350'}}},
+
+                                // Horizontal
+                                {type: 'max', name: 'Maximum', valueIndex: 0, itemStyle: {normal: {color: '#42A5F5'}}},
+                                {type: 'min', name: 'Minimum', valueIndex: 0, itemStyle: {normal: {color: '#42A5F5'}}},
+                                {type: 'average', name: 'Average', valueIndex: 0, itemStyle: {normal: {color: '#42A5F5'}}}
+                            ]
+                        }
+                    },
+                    {
+                        name: 'Data set 2',
+                        type: 'line',
+                        data: [
+                            [1, 2], [2, 3], [4, 2], [7, 5], [11, 2], [18, 3]
+                        ]
+                    }
+                ]
+            };
+
+
+            //
+            // Basic area options
+            //
+
+            basic_area_options = {
+
+                // Setup grid
+                grid: {
+                    x: 40,
+                    x2: 20,
+                    y: 35,
+                    y2: 25
+                },
+
+                // Add tooltip
+                tooltip: {
+                    trigger: 'axis'
+                },
+
+                // Add legend
+                legend: {
+                    data: ['New orders', 'In progress', 'Closed deals']
+                },
+
+
+                // Enable drag recalculate
+                calculable: true,
+
+                // Horizontal axis
+                xAxis: [{
+                    type: 'category',
+                    boundaryGap: false,
+                    data: [
+                        'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+                    ]
+                }],
+
+                // Vertical axis
+                yAxis: [{
+                    type: 'value'
+                }],
+
+                // Add series
+                series: [
+                    {
+                        name: 'Closed deals',
+                        type: 'line',
+                        smooth: true,
+                        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                        data: [10, 12, 21, 54, 260, 830, 710]
+                    },
+                    {
+                        name: 'In progress',
+                        type: 'line',
+                        smooth: true,
+                        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                        data: [30, 182, 434, 791, 390, 30, 10]
+                    },
+                    {
+                        name: 'New orders',
+                        type: 'line',
+                        smooth: true,
+                        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                        data: [1320, 1132, 601, 234, 120, 90, 20]
+                    }
+                ]
+            };
+
+
+            //
+            // Stacked area options
+            //
+
+            stacked_area_options = {
+
+                // Setup grid
+                grid: {
+                    x: 40,
+                    x2: 20,
+                    y: 35,
+                    y2: 25
+                },
+
+                // Add tooltip
+                tooltip: {
+                    trigger: 'axis'
+                },
+
+                // Add legend
+                legend: {
+                    data: ['Internet Explorer', 'Safari', 'Firefox', 'Chrome']
+                },
+
+                // Enable drag recalculate
+                calculable: true,
+
+                // Add horizontal axis 
+                xAxis: [{
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+                }],
+
+                // Add vertical axis
+                yAxis: [{
+                    type: 'value'
+                }],
+
+                // Add series
+                series: [
+                    {
+                        name: 'Internet Explorer',
+                        type: 'line',
+                        stack: 'Total',
+                        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                        data: [120, 132, 101, 134, 490, 230, 210]
+                    },
+                    {
+                        name: 'Safari',
+                        type: 'line',
+                        stack: 'Total',
+                        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                        data: [150, 1232, 901, 154, 190, 330, 810]
+                    },
+                    {
+                        name: 'Firefox',
+                        type: 'line',
+                        stack: 'Total',
+                        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                        data: [320, 1332, 1801, 1334, 590, 830, 1220]
+                    },
+                    {
+                        name: 'Chrome',
+                        type: 'line',
+                        stack: 'Total',
+                        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                        data: [820, 1632, 1901, 2234, 1290, 1330, 1320]
+                    }
+                ]
+            };
+
+
+            //
+            // Reversed value axis options
+            //
+
+            reversed_value_options = {
+
+                // Setup grid
+                grid: {
+                    x: 40,
+                    x2: 40,
+                    y: 35,
+                    y2: 25
+                },
+
+                // Add tooltip
+                tooltip: {
+                    trigger: 'axis',
+                    formatter: function(params) {
+                        return params[0].name + '<br/>'
+                        + params[0].seriesName + ': ' + params[0].value + ' (m^3/s)<br/>'
+                        + params[1].seriesName + ': ' + -params[1].value + ' (mm)';
+                    }
+                },
+
+                // Add legend
+                legend: {
+                    data: ['Flow', 'Rainfall']
+                },
+
+                // Add horizontal axis
+                xAxis: [{
+                    type: 'category',
+                    boundaryGap: false,
+                    axisLine: {
+                        onZero: false
+                    },
+                    data: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+                }],
+
+                // Add vertical axis
+                yAxis: [
+                    {
+                        name: 'Flow(m^3/s)',
+                        type: 'value',
+                        max: 500
+                    },
+                    {
+                        name: 'Rainfall(mm)',
+                        type: 'value',
+                        axisLabel: {
+                            formatter: function(v) {
+                                return - v;
+                            }
+                        }
+                    }
+                ],
+
+                // Add series
+                series: [
+                    {
+                        name: 'Flow',
+                        type: 'line',
+                        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                        data:[100, 200, 240, 180, 90, 200, 130]
+                    },
+                    {
+                        name: 'Rainfall',
+                        type: 'line',
+                        yAxisIndex: 1,
+                        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                        data: (function() {
+                            var oriData = [
+                                1, 2, 1.5, 7.4, 3.1, 4, 2
+                            ];
+                            var len = oriData.length;
+                            while(len--) {
+                                oriData[len] *= -1;
+                            }
+                            return oriData;
+                        })()
+                    }
+                ]
+            };
+
+
+
+            // Apply options
+            // ------------------------------
+
+            basic_lines.setOption(basic_lines_options);
+            stacked_lines.setOption(stacked_lines_options);
+            inverted_axes.setOption(inverted_axes_options);
+            line_point.setOption(line_point_options);
+            basic_area.setOption(basic_area_options);
+            stacked_area.setOption(stacked_area_options);
+            reversed_value.setOption(reversed_value_options);
+
+
+
+            // Resize charts
+            // ------------------------------
+
+            window.onresize = function () {
+                setTimeout(function () {
+                    basic_lines.resize();
+                    stacked_lines.resize();
+                    inverted_axes.resize();
+                    line_point.resize();
+                    basic_area.resize();
+                    stacked_area.resize();
+                    reversed_value.resize();
+                }, 200);
+            }
         }
-function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
-function formatDate(timeIdVal) {
-
-    var result = timeIdVal.toString().substring(6, 8) + '-'
-            + timeIdVal.toString().substring(4, 6) + '-'
-            + timeIdVal.toString().substring(0, 4);
-    return result;
-}
-function getDayOfWeek(dayN) {
-
-    if (dayN == 1) {
-        return 'Понедельник';
-    } else if (dayN == 2) {
-        return 'Вторник';
-    } else if (dayN == 3) {
-        return 'Среда';
-    } else if (dayN == 4) {
-        return 'Четверг';
-    } else if (dayN == 5) {
-        return 'Пятница';
-    } else if (dayN == 6) {
-        return 'Суббота';
-    } else if (dayN == 7) {
-        return 'Воскресение';
-    }
-
-}
-
-
+    );
+});
