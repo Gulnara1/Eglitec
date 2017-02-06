@@ -12,34 +12,6 @@ package com.eglitec.stores;
 public class Organization {
 
     /**
-     * @return the floorSpaceSalesSqm
-     */
-    public float getSalesSqm() {
-        return salesSqm;
-    }
-
-    /**
-     * @param salesSqm the floorSpaceSalesSqm to set
-     */
-    public void setSalesSqm(float salesSqm) {
-        this.salesSqm = salesSqm;
-    }
-
-    /**
-     * @return the penetration
-     */
-    public float getPenetration() {
-        return penetration;
-    }
-
-    /**
-     * @param penetration the penetration to set
-     */
-    public void setPenetration(float penetration) {
-        this.penetration = penetration;
-    }
-
-    /**
      * @return the isPriceAuto
      */
     public int getIsPriceAuto() {
@@ -219,6 +191,4 @@ public class Organization {
     private int isPriceRounding;
     private float priceChangeStep;
     private int priceOptimGoal;
-    private float salesSqm;
-    private float penetration;
 }

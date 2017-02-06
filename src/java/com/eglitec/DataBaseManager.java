@@ -87,13 +87,11 @@ public class DataBaseManager {
 
             organization.setId(rs.getInt("fk_org"));
             organization.setDesc(rs.getString("descr"));
-            organization.setFloorSpace(rs.getFloat("floor_space"));
+            organization.setFloorSpace(rs.getInt("floor_space"));
             organization.setClusterId(rs.getInt("cluster_id"));
             organization.setSales(rs.getInt("sales"));
             organization.setGrossProfit(rs.getInt("gross_profit"));
             organization.setTickets(rs.getInt("tickets"));
-            organization.setSalesSqm(rs.getFloat("sales_sqm"));
-            organization.setPenetration(rs.getFloat("penetration"));
 
             listOrgs.add(organization);
         }

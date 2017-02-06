@@ -6,9 +6,11 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Eglitec stores settings</title>
+        <title>Eglitec Reports</title>
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
         <!-- Global stylesheets -->
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
@@ -25,13 +27,17 @@ and open the template in the editor.
         <script type="text/javascript" src="js/core/libraries/jquery.min.js"></script>
         <script type="text/javascript" src="js/core/libraries/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/loaders/blockui.min.js"></script>
-        <script type="text/javascript" src="js/plugins/tables/handsontable/handsontable.full.js"></script>
-        <!--<script type="text/javascript" src="js/plugins/tables/handsontable/handsontable.min.js"></script>-->
+        <script type="text/javascript" src="js/plugins/tables/handsontable/handsontable.min.js"></script>
         <!-- /core JS files -->        
 
+        <script type="text/javascript" src="js/lib/echarts.js"></script>  
+        <!--<script type="text/javascript" src="js/lib/theme/limitless.js"></script>-->
+        <!--<script type="text/javascript" src="js/lib/chart/line.js"></script>-->
+        <!--<script type="text/javascript" src="js/lib/jquery.min.js"></script>-->
         <script type="text/javascript" src="js/core/app.js"></script>
-        <script type="text/javascript" src="js/pages/hot.js"></script>  
-        <script type="text/javascript" src="js/stores_settings.js"></script>  
+        <script type="text/javascript" src="js/loader.js"></script>  
+        <script type="text/javascript" src="js/lib/echarts/lines_areas.js"></script>  
+        <script type="text/javascript" src="js/pages/handsontable.js"></script> 
     </head>
     <body>
         <!-- Main navbar -->
@@ -52,10 +58,13 @@ and open the template in the editor.
             </div>
 
         </div>
-        <!-- /Main navbar -->
+        <!-- main navbar -->
+
+        <!-- Page container -->
         <div class="page-container">
             <!-- Page content -->
             <div class="page-content">
+
                 <!-- Main sidebar -->
                 <div class="sidebar sidebar-main" >
                     <div class="sidebar-content">
@@ -119,7 +128,7 @@ and open the template in the editor.
                                     <li>
                                         <a href="#"><i class="icon-eye"></i> <span>Мониторинг</span></a>
                                         <ul>
-                                            <li><a href="">Мониторинг конкурентов</a></li>
+                                            <li><a href="next_best_prices.html">Мониторинг конкурентов</a></li>
                                         </ul>
                                     </li>
 
@@ -127,7 +136,7 @@ and open the template in the editor.
                                         <a href="#"><i class="icon-cog3"></i> <span>Настройки</span></a>
                                         <ul>
                                             <li><a href="stores_settings.html">Магазины</a></li>
-                                            <li><a href="categories_settings.html">Категории</a></li>
+                                            <li><a href="">Категории</a></li>
                                             <li><a href="">Товарные позиции</a></li>
                                         </ul>
                                     </li>     
@@ -143,25 +152,69 @@ and open the template in the editor.
                     <div class="page-header">
                         <div class="page-header-content">
                             <div class="page-title">
-                                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Настройки</span> - Магазины</h4>
+                                <h4><i class="icon-arrow-left52 position-left"></i> <span class="text-semibold">Reports</span> - Operations and Stores</h4>
                             </div>
                         </div>
                         <div class="breadcrumb-line">
 
                             <ul class="breadcrumb">
                                 <li><a href="index.html"><i class="icon-home2 position-left"></i> Главная</a></li>
-                                <li><a href="">Настройки</a></li> 
-                                <li href="" class="active">Магазины</li>
+                                <li><a href="">Товар</a></li> 
+                                <li href="echarts_lines_areas.html" class="active">Аналитика по товарам</li>
                             </ul>     
                         </div>                        
                     </div>
                     <!-- page header -->
-                    <!-- Scrolling enabled stores table-->
+                    <!--Filters -->
+                    <div class="page-header">
+                        <div class="breadcrumb-line ">      
+                            <p><select id="orgList" name="orgList" >
+                                </select>
+                                <input id="curDate" type = 'date' data ='date'/>
+                            </p>
+                            <p>Zoom: 
+                                <a href="#" id="drowLineChartM"> 1m </a>
+                                <a href="#" id="drowLineChartQ"> 3m </a>
+                                <a href="#" id="drowLineChartPY"> 6m </a>
+                                <a href="#" id="drowLineChartYTD"> YTD </a>
+                                <a href="#" id="drowLineChartY"> 1y </a>
+                                <!--<a href="#" id="drowLineChartFY"> 5y </a>-->
+                            </p>
+                        </div>                        
+                    </div>
+                    <!--filters -->
+
+                    <!-- Content area -->
                     <div class="content">
+
+                        <!-- Basic line chart -->
                         <div class="panel panel-flat">
                             <div class="panel-heading">
-                                <!--<h5 class="panel-title" id="panel-title"></h5>-->
+                                <h5 class="panel-title">Average Ticket</h5>
                                 <div class="heading-elements">
+                                    <ul class="icons-list">
+                                        <li><a data-action="collapse"></a></li>
+                                        <li><a data-action="reload"></a></li>
+                                        <li><a data-action="close"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="chart-container">
+                                    <div class="chart has-fixed-height" id="basic_lines"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /basic line chart -->
+
+                        <!-- Scrolling enabled -->
+                        <div class="panel panel-flat">
+                            <div class="panel-heading">
+                                <h5 class="panel-title" id="panel-title"></h5>
+                                <div class="heading-elements">
+
+
+
                                     <ul class="icons-list">
                                         <li><a id="export_csv"><i class="icon-file-excel"></i> Export to .csv</a></li>
                                         <li><a data-action="collapse"></a></li>
@@ -172,31 +225,21 @@ and open the template in the editor.
                             </div>
 
                             <div class="panel-body">
-                                <div class="form-group has-feedback has-feedback-left">
-                                    <input type="text" id="hot_search_callback_input" class="form-control" placeholder="Search">
-                                    <div class="form-control-feedback">
-                                        <i class="icon-search4 text-size-small"></i>
-                                    </div>
-                                </div>
-                                <p class="content-group"><span class="text-semibold" id="result-count">0</span> results found</p> 
                                 <p class="content-group"></p>
-                                <div class="text-left" id="saveDiv"></div>
-                                <div class="hot-container has-scroll" id="storeContainer">
-                                    <div id="stores"></div>
+
+                                <div class="hot-container has-scroll">
+                                    <div id="hot_table"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="text-right">
-                            <button id="save" onclick="save()"> Сохранить </button>
-                        </div>
+                        <!-- /scrolling enabled -->
                     </div>
-                    <!-- /scrolling enabled stores table-->    
+                    <!-- content area -->
                 </div>
+                <!-- main content -->
             </div>
+            <!-- page content -->
         </div>
-    </div>
-</body>
+        <!-- page container -->
+    </body>
 </html>
-
-
-
